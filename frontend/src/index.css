@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  html, body, #root { height: 100%; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; background: #f8fafc; color: #1e293b; }
+}
+
+/* Leaflet overrides */
+.leaflet-container { height: 100%; width: 100%; z-index: 0; }
+.leaflet-control-zoom { border: none !important; }
+.leaflet-control-zoom a { border-radius: 6px !important; border: 1px solid #e2e8f0 !important; }
+
+/* Status colours */
+.status-good    { @apply bg-green-100 text-green-800; }
+.status-fair    { @apply bg-yellow-100 text-yellow-800; }
+.status-poor    { @apply bg-orange-100 text-orange-800; }
+.status-critical { @apply bg-red-100 text-red-800; }
+.status-unknown  { @apply bg-gray-100 text-gray-600; }
