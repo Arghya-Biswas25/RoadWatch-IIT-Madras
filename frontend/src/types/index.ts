@@ -104,6 +104,7 @@ export interface Contractor {
   contact_email?: string;
   contact_phone?: string;
   state: string;
+  note?: string;
   performance_score: number;
   score_breakdown?: ScoreBreakdown;
   band?: { label: string; color: string };
@@ -114,6 +115,7 @@ export interface ScoreBreakdown {
   resolution_rate_score: number;
   response_time_score: number;
   longevity_score: number;
+  longevity_note?: string;
   repeat_penalty: number;
   loyalty_bonus: number;
   total_complaints: number;

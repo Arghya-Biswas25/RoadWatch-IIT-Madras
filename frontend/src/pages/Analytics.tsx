@@ -39,7 +39,7 @@ export default function Analytics() {
   const news = d?.news;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-6 pb-24 md:pb-6 space-y-6">
+    <div className="max-w-6xl mx-auto px-4 py-6 space-y-6 mobile-safe-bottom">
       <div>
         <h1 className="text-xl font-bold text-gray-900">Analytics Dashboard</h1>
         <p className="text-xs text-gray-400 mt-0.5">

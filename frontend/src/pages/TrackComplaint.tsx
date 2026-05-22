@@ -35,7 +35,7 @@ export default function TrackComplaint() {
   };
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-8 pb-24 md:pb-8">
+    <div className="max-w-xl mx-auto px-4 py-8 mobile-safe-bottom">
       <h1 className="text-2xl font-bold text-gray-900 mb-2">Track Your Complaint</h1>
       <p className="text-gray-500 text-sm mb-6">Enter the tracking token you received when you filed your complaint.</p>
 

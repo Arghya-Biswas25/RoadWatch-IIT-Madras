@@ -99,7 +99,7 @@ export default function ComplaintForm() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-6 pb-24 md:pb-6">
+    <div className="max-w-2xl mx-auto px-4 py-6 mobile-safe-bottom">
       <div className="flex items-center gap-3 mb-6">
         <Link to="/" className="p-2 rounded-lg hover:bg-gray-100"><ArrowLeft size={18} /></Link>
         <div>

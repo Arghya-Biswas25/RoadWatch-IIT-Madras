@@ -2,20 +2,141 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Reset & base ─────────────────────────────────────────────────────────── */
 @layer base {
-  * { box-sizing: border-box; }
-  html, body, #root { height: 100%; margin: 0; padding: 0; }
-  body { font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; background: #f8fafc; color: #1e293b; }
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    height: 100%;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    height: 100%;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
-/* Leaflet overrides */
-.leaflet-container { height: 100%; width: 100%; z-index: 0; }
-.leaflet-control-zoom { border: none !important; }
-.leaflet-control-zoom a { border-radius: 6px !important; border: 1px solid #e2e8f0 !important; }
+/* ── Custom scrollbars (thin, branded) ───────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 99px;
+  transition: background 0.2s;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
 
-/* Status colours */
-.status-good    { @apply bg-green-100 text-green-800; }
-.status-fair    { @apply bg-yellow-100 text-yellow-800; }
-.status-poor    { @apply bg-orange-100 text-orange-800; }
-.status-critical { @apply bg-red-100 text-red-800; }
-.status-unknown  { @apply bg-gray-100 text-gray-600; }
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+/* ── Leaflet overrides ───────────────────────────────────────────────────── */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.12) !important;
+}
+.leaflet-control-zoom a {
+  border-radius: 6px !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #475569 !important;
+  font-size: 18px !important;
+  line-height: 28px !important;
+}
+.leaflet-control-zoom a:hover {
+  background: #f8fafc !important;
+}
+
+/* ── Page scroll container ───────────────────────────────────────────────── */
+/* Applied to all regular pages (non-map, non-chat) via Layout */
+.page-scroll {
+  overflow-y: auto;
+  height: 100%;
+  overscroll-behavior-y: contain;
+}
+
+/* ── Interactive card hover effects ─────────────────────────────────────── */
+.card-hover {
+  transition: box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+}
+.card-hover:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+  border-color: #bfdbfe;
+}
+
+/* ── Sticky table headers ────────────────────────────────────────────────── */
+.table-sticky thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* ── Smooth focus rings ──────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Scrollable panel utility ────────────────────────────────────────────── */
+.scroll-panel {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Mobile bottom nav clearance ────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .mobile-safe-bottom {
+    padding-bottom: 5rem; /* 80px — clears fixed bottom nav */
+  }
+}
+
+/* ── Skeleton loader pulse ───────────────────────────────────────────────── */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.skeleton {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  background: #e2e8f0;
+  border-radius: 4px;
+}
+
+/* ── Badge status colours ────────────────────────────────────────────────── */
+.status-good     { @apply bg-green-100  text-green-800;  }
+.status-fair     { @apply bg-yellow-100 text-yellow-800; }
+.status-poor     { @apply bg-orange-100 text-orange-800; }
+.status-critical { @apply bg-red-100    text-red-800;    }
+.status-unknown  { @apply bg-gray-100   text-gray-600;   }

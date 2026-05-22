@@ -79,7 +79,7 @@ export default function RoadDetail() {
   );
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6 pb-24 md:pb-6 space-y-4">
+    <div className="max-w-4xl mx-auto px-4 py-6 space-y-4 mobile-safe-bottom">
       {/* Header */}
       <div className="flex items-start gap-3">
         <Link to="/" className="p-2 rounded-lg hover:bg-gray-100 mt-0.5 shrink-0"><ArrowLeft size={18} /></Link>

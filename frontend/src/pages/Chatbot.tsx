@@ -280,7 +280,7 @@ export default function Chatbot() {
       )}
 
       {/* ── Input ── */}
-      <div className="bg-white border-t border-gray-200 px-4 py-3 pb-20 md:pb-3">
+      <div className="bg-white border-t border-gray-200 px-4 py-3 pb-safe md:pb-3" style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}>
         <div className="flex gap-2">
           <input
             value={input}
