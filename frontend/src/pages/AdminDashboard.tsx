@@ -23,7 +23,8 @@ export default function AdminDashboard() {
 
   const { data: complaints = [] } = useQuery<Complaint[]>({ queryKey: ['all-complaints'], queryFn: fetchComplaints });
   const { data: contractors = [] } = useQuery<Contractor[]>({ queryKey: ['contractors'], queryFn: fetchContractors });
-  const { data: roads = [] } = useQuery<Road[]>({ queryKey: ['roads'], queryFn: () => fetchRoads() });
+  // Admin roads tab shows complaints summary only — roads come from OSM dynamically
+  const roads: Road[] = [];
 
   const assignMutation = useMutation({
     mutationFn: ({ id, engId }: { id: string; engId: string }) => assignComplaint(id, engId),

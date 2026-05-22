@@ -17,16 +17,17 @@ api.interceptors.response.use(
   }
 );
 
-// Roads
-export const fetchRoads = (params?: Record<string, string>) =>
-  api.get('/roads', { params }).then(r => r.data);
+// ── Roads (live OSM) ─────────────────────────────────────────────────────────
+export const fetchRoads = (lat: number, lng: number, radius = 5000) =>
+  api.get('/roads', { params: { lat, lng, radius } }).then(r => r.data);
 
-export const fetchRoad = (id: string) =>
-  api.get(`/roads/${id}`).then(r => r.data);
+export const fetchRoad = (osmId: string) =>
+  api.get(`/roads/${osmId}`).then(r => r.data);
 
-// Complaints
+// ── Complaints ───────────────────────────────────────────────────────────────
 export const submitComplaint = (data: {
-  road_id: string;
+  road_osm_id?: string;
+  road_name?: string;
   category: string;
   description: string;
   severity: string;
@@ -52,19 +53,31 @@ export const assignComplaint = (id: string, engineer_id: string) =>
 export const escalateComplaint = (id: string) =>
   api.put(`/complaints/${id}/escalate`).then(r => r.data);
 
-// Analytics
+// ── Analytics ────────────────────────────────────────────────────────────────
 export const fetchAnalytics = () =>
   api.get('/analytics').then(r => r.data);
 
-// Chatbot
-export const sendChatMessage = (messages: { role: string; content: string }[], lat?: number, lng?: number, role?: string) =>
-  api.post('/chatbot', { messages, lat, lng, role }).then(r => r.data);
+// ── External data (weather, geocoding, news, national stats) ─────────────────
+export const fetchWeather = (lat: number, lng: number) =>
+  api.get('/external/weather', { params: { lat, lng } }).then(r => r.data);
 
-// Auth
+export const reverseGeocode = (lat: number, lng: number) =>
+  api.get('/external/geocode/reverse', { params: { lat, lng } }).then(r => r.data);
+
+export const searchGeocode = (q: string) =>
+  api.get('/external/geocode/search', { params: { q } }).then(r => r.data);
+
+export const fetchNews = (topic?: string) =>
+  api.get('/external/news', { params: { topic, all: topic ? undefined : 'true' } }).then(r => r.data);
+
+export const fetchNationalStats = () =>
+  api.get('/external/national-stats').then(r => r.data);
+
+// ── Auth ─────────────────────────────────────────────────────────────────────
 export const login = (email: string, password: string) =>
   api.post('/auth/login', { email, password }).then(r => r.data);
 
-// Admin
+// ── Admin ────────────────────────────────────────────────────────────────────
 export const fetchContractors = () =>
   api.get('/admin/contractors').then(r => r.data);
 

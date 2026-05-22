@@ -4,7 +4,7 @@ const SLA_RESOLVE = { Critical: 48, High: 168, Medium: 336, Low: 720 };
 
 export function computeScore(contractorId) {
   const complaints = store.getComplaints().filter(c => c.routed_to === contractorId);
-  const contractor = store.getContractorById(contractorId);
+  const contractor = store.getContractorRaw(contractorId);  // raw — avoids circular call
   if (!contractor) return null;
 
   const total = complaints.length || 1;

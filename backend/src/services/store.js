@@ -1,30 +1,33 @@
-// In-memory store — works without Supabase for demo purposes
-import { roads, contractors, users, budgets, repairLogs, complaints, routingRules } from '../data/seed.js';
+/**
+ * In-memory store for data RoadWatch owns:
+ *  - User accounts (for auth)
+ *  - Contractor profiles (admin-entered)
+ *  - Routing rules
+ *  - Complaints (citizen-submitted + demo seeds)
+ *  - Admin-entered budgets and repair logs
+ *
+ * Roads are NOT in this store — they are fetched live from OpenStreetMap.
+ */
 
-// Deep clone so mutations don't corrupt the original seed
-let _roads = roads.map(r => ({ ...r }));
-let _contractors = contractors.map(c => ({ ...c }));
-let _users = users.map(u => ({ ...u }));
-let _budgets = budgets.map(b => ({ ...b }));
-let _repairLogs = repairLogs.map(r => ({ ...r }));
-let _complaints = complaints.map(c => ({ ...c }));
+import { contractors, users, budgets, repairLogs, complaints, routingRules } from '../data/seed.js';
+import { computeScore } from './scoring.js';
+
+let _contractors  = contractors.map(c => ({ ...c }));
+let _users        = users.map(u => ({ ...u }));
+let _budgets      = budgets.map(b => ({ ...b }));
+let _repairLogs   = repairLogs.map(r => ({ ...r }));
+let _complaints   = complaints.map(c => ({ ...c }));
 let _routingRules = routingRules.map(r => ({ ...r }));
 
+// ── Contractors ──────────────────────────────────────────────────────────────
 export const store = {
-  // Roads
-  getRoads: () => _roads,
-  getRoadById: (id) => _roads.find(r => r.id === id),
-  updateRoad: (id, patch) => {
-    const idx = _roads.findIndex(r => r.id === id);
-    if (idx === -1) return null;
-    _roads[idx] = { ..._roads[idx], ...patch };
-    return _roads[idx];
-  },
-  createRoad: (road) => { _roads.push(road); return road; },
+  // Raw lookup — no score computation (avoids circular dependency with scoring.js)
+  getContractorRaw: (id) => _contractors.find(x => x.id === id) ?? null,
+  getContractorsRaw: () => _contractors,
 
-  // Contractors
-  getContractors: () => _contractors,
-  getContractorById: (id) => _contractors.find(c => c.id === id),
+  // Scored versions — called by routes after scoring.js is safely imported
+  getContractors: () => _contractors,      // routes inject score themselves
+  getContractorById: (id) => _contractors.find(x => x.id === id) ?? null,
   updateContractor: (id, patch) => {
     const idx = _contractors.findIndex(c => c.id === id);
     if (idx === -1) return null;
@@ -32,24 +35,26 @@ export const store = {
     return _contractors[idx];
   },
 
-  // Users (auth)
+  // ── Users (auth) ──────────────────────────────────────────────────────────
   getUserByEmail: (email) => _users.find(u => u.email === email),
-  getUserById: (id) => _users.find(u => u.id === id),
+  getUserById:    (id)    => _users.find(u => u.id === id),
 
-  // Budgets
-  getBudgets: () => _budgets,
+  // ── Budgets (admin-entered) ───────────────────────────────────────────────
+  getBudgets: ()          => _budgets,
   getBudgetsByRoadId: (roadId) => _budgets.filter(b => b.road_id === roadId),
+  getBudgetsByOsmId:  (osmId)  => _budgets.filter(b => b.osm_road_id === String(osmId)),
   createBudget: (b) => { _budgets.push(b); return b; },
 
-  // Repair logs
-  getRepairLogsByRoadId: (roadId) => _repairLogs.filter(r => r.road_id === roadId),
+  // ── Repair logs (admin-entered) ───────────────────────────────────────────
+  getRepairLogsByOsmId: (osmId) => _repairLogs.filter(r => r.osm_road_id === String(osmId)),
   createRepairLog: (log) => { _repairLogs.push(log); return log; },
 
-  // Complaints
-  getComplaints: () => _complaints,
-  getComplaintById: (id) => _complaints.find(c => c.id === id),
-  getComplaintByToken: (token) => _complaints.find(c => c.tracking_token === token),
-  getComplaintsByEngineer: (engId) => _complaints.filter(c => c.routed_to === engId),
+  // ── Complaints ────────────────────────────────────────────────────────────
+  getComplaints: ()          => _complaints,
+  getComplaintById: (id)     => _complaints.find(c => c.id === id),
+  getComplaintByToken: (tok) => _complaints.find(c => c.tracking_token === tok),
+  getComplaintsByEngineer: (engId)  => _complaints.filter(c => c.routed_to === engId),
+  getComplaintsByOsmId:    (osmId)  => _complaints.filter(c => String(c.road_osm_id) === String(osmId)),
   createComplaint: (complaint) => { _complaints.push(complaint); return complaint; },
   updateComplaint: (id, patch) => {
     const idx = _complaints.findIndex(c => c.id === id);
@@ -58,7 +63,7 @@ export const store = {
     return _complaints[idx];
   },
 
-  // Routing rules
+  // ── Routing Rules ─────────────────────────────────────────────────────────
   getRoutingRules: () => _routingRules,
   getRoutingRule: (roadType, country = 'India') =>
     _routingRules.find(r => r.road_type === roadType && r.country === country),

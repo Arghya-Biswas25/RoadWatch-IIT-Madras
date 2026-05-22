@@ -1,48 +1,60 @@
 import { useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { AlertTriangle, CheckCircle, Copy, ArrowLeft } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Copy, ArrowLeft, MapPin } from 'lucide-react';
 import { fetchRoads, submitComplaint } from '../lib/api';
 import { useAppStore } from '../store/app';
-import type { Road } from '../types';
 
 const CATEGORIES = ['Pothole', 'Flooding', 'Structural', 'Signage', 'Encroachment', 'Other'];
 const SEVERITIES = [
-  { value: 'Low', label: 'Low', desc: 'Minor inconvenience' },
-  { value: 'Medium', label: 'Medium', desc: 'Needs attention' },
-  { value: 'High', label: 'High', desc: 'Potential hazard' },
-  { value: 'Critical', label: 'Critical', desc: 'Immediate danger' },
+  { value: 'Low',      label: 'Low',      desc: 'Minor inconvenience' },
+  { value: 'Medium',   label: 'Medium',   desc: 'Needs attention'     },
+  { value: 'High',     label: 'High',     desc: 'Potential hazard'    },
+  { value: 'Critical', label: 'Critical', desc: 'Immediate danger'    },
 ];
 
 export default function ComplaintForm() {
   const [params] = useSearchParams();
   const { userLat, userLng } = useAppStore();
-  const { data: roads = [] } = useQuery<Road[]>({ queryKey: ['roads'], queryFn: () => fetchRoads() });
+
+  // Pre-fill from road detail URL params (OSM-based)
+  const preOsmId   = params.get('road_osm_id') || '';
+  const preRoadName= params.get('road_name')   || '';
 
   const [form, setForm] = useState({
-    road_id: params.get('road') || '',
-    category: '',
-    severity: 'Medium',
+    road_osm_id: preOsmId,
+    road_name:   preRoadName,
+    category:    '',
+    severity:    'Medium',
     description: '',
   });
   const [submitted, setSubmitted] = useState<{ tracking_token: string; routed_to_authority?: string } | null>(null);
   const [copied, setCopied] = useState(false);
 
+  // Fetch nearby roads (from OSM) for the dropdown — only when we have a location
+  const { data: roadsData } = useQuery({
+    queryKey: ['roads', userLat?.toFixed(2), userLng?.toFixed(2)],
+    queryFn: () => fetchRoads(userLat!, userLng!),
+    enabled: !!(userLat && userLng),
+  });
+  const nearbyRoads = (roadsData?.roads ?? []) as any[];
+
   const mutation = useMutation({
     mutationFn: () => submitComplaint({
-      road_id: form.road_id,
-      category: form.category,
+      road_osm_id: form.road_osm_id || undefined,
+      road_name:   form.road_name   || undefined,
+      category:    form.category,
       description: form.description,
-      severity: form.severity,
-      latitude: userLat || 0,
-      longitude: userLng || 0,
+      severity:    form.severity,
+      latitude:    userLat  || 0,
+      longitude:   userLng  || 0,
     }),
-    onSuccess: (data) => setSubmitted(data),
+    onSuccess: (data: any) => setSubmitted(data),
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.road_id || !form.category || !form.description.trim()) return;
+    if (!form.category || !form.description.trim()) return;
     mutation.mutate();
   };
 
@@ -60,9 +72,7 @@ export default function ComplaintForm() {
         <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
           <CheckCircle size={48} className="text-green-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold text-gray-900 mb-2">Complaint Submitted!</h2>
-          <p className="text-gray-500 text-sm mb-6">
-            Your complaint has been submitted anonymously and routed to the responsible authority.
-          </p>
+          <p className="text-gray-500 text-sm mb-6">Submitted anonymously and routed to the responsible authority.</p>
           <div className="bg-brand-50 border border-brand-200 rounded-xl p-4 mb-6">
             <p className="text-xs font-semibold text-brand-600 uppercase tracking-wide mb-1">Your Tracking Token</p>
             <p className="text-2xl font-mono font-bold text-brand-800">{submitted.tracking_token}</p>
@@ -72,11 +82,9 @@ export default function ComplaintForm() {
             </button>
           </div>
           {submitted.routed_to_authority && (
-            <p className="text-sm text-gray-600 mb-4">
-              Routed to: <strong>{submitted.routed_to_authority}</strong>
-            </p>
+            <p className="text-sm text-gray-600 mb-4">Routed to: <strong>{submitted.routed_to_authority}</strong></p>
           )}
-          <p className="text-xs text-gray-400 mb-6">Save this token to check the status of your complaint later.</p>
+          <p className="text-xs text-gray-400 mb-6">Save this token to check status later.</p>
           <div className="flex gap-3 justify-center">
             <Link to="/track" className="px-4 py-2 bg-brand-700 text-white rounded-lg text-sm font-medium hover:bg-brand-600 transition-colors">
               Track Complaint
@@ -101,36 +109,58 @@ export default function ComplaintForm() {
       </div>
 
       <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 mb-5 text-sm text-blue-700">
-        🔒 Your complaint is completely anonymous. Do not include your name, phone number, or email address in the description.
+        🔒 Your complaint is anonymous. Do not include your name, phone number, or email in the description.
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Road selection */}
+        {/* Road — from OSM nearby roads or manual text */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Select Road *</label>
-          <select
-            value={form.road_id}
-            onChange={(e) => setForm(f => ({ ...f, road_id: e.target.value }))}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
-            required>
-            <option value="">Choose a road...</option>
-            {(roads as Road[]).map((r) => (
-              <option key={r.id} value={r.id}>{r.road_name} ({r.road_type} · {r.district})</option>
-            ))}
-          </select>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Road <span className="text-gray-400 font-normal">(select from nearby or type a name)</span>
+          </label>
+          {nearbyRoads.length > 0 ? (
+            <select
+              value={form.road_osm_id}
+              onChange={e => {
+                const road = nearbyRoads.find((r: any) => r.id === e.target.value);
+                setForm(f => ({ ...f, road_osm_id: e.target.value, road_name: road?.road_name || '' }));
+              }}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+              <option value="">Select a road near you (from OpenStreetMap)…</option>
+              {nearbyRoads.map((r: any) => (
+                <option key={r.id} value={r.id}>
+                  {r.road_name}{r.road_code ? ` (${r.road_code})` : ''} — {r.road_type}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <div className="flex items-center gap-2">
+              <MapPin size={14} className="text-gray-400 shrink-0" />
+              <input
+                value={form.road_name}
+                onChange={e => setForm(f => ({ ...f, road_name: e.target.value }))}
+                placeholder="Type road name (e.g. NH-16, Anna Salai)"
+                className="flex-1 border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+              />
+            </div>
+          )}
+          {!userLat && (
+            <p className="text-xs text-amber-600 mt-1">⚠ Allow location access to see nearby roads from OpenStreetMap.</p>
+          )}
+          {form.road_name && !form.road_osm_id && (
+            <p className="text-xs text-gray-400 mt-1">Manual road name — will be matched by admin.</p>
+          )}
         </div>
 
         {/* Category */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">Issue Category *</label>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {CATEGORIES.map((cat) => (
+            {CATEGORIES.map(cat => (
               <button key={cat} type="button"
                 onClick={() => setForm(f => ({ ...f, category: cat }))}
                 className={`py-2 px-3 rounded-lg text-sm font-medium border transition-colors
-                  ${form.category === cat
-                    ? 'bg-brand-700 text-white border-brand-700'
-                    : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
+                  ${form.category === cat ? 'bg-brand-700 text-white border-brand-700' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
                 {cat}
               </button>
             ))}
@@ -145,9 +175,7 @@ export default function ComplaintForm() {
               <button key={value} type="button"
                 onClick={() => setForm(f => ({ ...f, severity: value }))}
                 className={`py-2 px-3 rounded-lg text-sm border transition-colors text-left
-                  ${form.severity === value
-                    ? 'bg-brand-700 text-white border-brand-700'
-                    : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
+                  ${form.severity === value ? 'bg-brand-700 text-white border-brand-700' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'}`}>
                 <p className="font-medium">{label}</p>
                 <p className={`text-xs ${form.severity === value ? 'text-blue-100' : 'text-gray-400'}`}>{desc}</p>
               </button>
@@ -158,15 +186,12 @@ export default function ComplaintForm() {
         {/* Description */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1.5">Description *</label>
-          <textarea
-            value={form.description}
-            onChange={(e) => setForm(f => ({ ...f, description: e.target.value }))}
+          <textarea value={form.description}
+            onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
             rows={4}
-            placeholder="Describe the issue clearly. E.g.: Large pothole near the bus stop, approximately 30cm wide and 10cm deep."
+            placeholder="Describe the issue clearly. E.g.: Large pothole near bus stop, approximately 30cm wide."
             className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
-            required
-            maxLength={500}
-          />
+            required maxLength={500} />
           <p className="text-xs text-gray-400 mt-1 text-right">{form.description.length}/500</p>
         </div>
 
@@ -177,13 +202,11 @@ export default function ComplaintForm() {
         )}
 
         <button type="submit"
-          disabled={mutation.isPending || !form.road_id || !form.category || !form.description.trim()}
+          disabled={mutation.isPending || !form.category || !form.description.trim()}
           className="w-full bg-red-600 hover:bg-red-500 disabled:bg-gray-300 text-white py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors">
-          {mutation.isPending ? (
-            <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Submitting...</>
-          ) : (
-            <><AlertTriangle size={18} /> Submit Complaint</>
-          )}
+          {mutation.isPending
+            ? <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Submitting…</>
+            : <><AlertTriangle size={18} /> Submit Complaint</>}
         </button>
       </form>
     </div>
