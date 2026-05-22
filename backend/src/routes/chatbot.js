@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 
   // Extract the latest user query for RAG retrieval
   const lastUserMsg = [...messages].reverse().find(m => m.role === 'user')?.content ?? '';
-  const systemPrompt = buildSystemPrompt(lastUserMsg, lat, lng, role || 'citizen');
+  const systemPrompt = await buildSystemPrompt(lastUserMsg, lat, lng, role || 'citizen');
 
   // SSE response headers
   res.setHeader('Content-Type', 'text/event-stream');
