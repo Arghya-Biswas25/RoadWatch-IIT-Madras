@@ -7,7 +7,7 @@
 import axios from 'axios';
 
 const CACHE = new Map();
-const CACHE_TTL_MS = 30 * 60_000; // 30 min
+const CACHE_TTL_MS = 60 * 60_000; // 1 hour — avoids GDELT 429 rate limits
 
 const QUERIES = {
   infrastructure: 'road infrastructure India pothole',

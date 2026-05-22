@@ -180,12 +180,21 @@ export default function CitizenHome() {
               Querying OpenStreetMap…
             </div>
           ) : roads.length === 0 ? (
-            <div className="px-4 py-6 text-sm text-gray-400">
-              No named roads found nearby. OSM data may be sparse in this area.
-              <a href="https://www.openstreetmap.org/edit" target="_blank" rel="noopener noreferrer"
-                className="block mt-2 text-brand-600 hover:underline text-xs flex items-center gap-1">
-                <ExternalLink size={11} /> Contribute to OpenStreetMap
-              </a>
+            <div className="px-4 py-6 text-sm text-gray-500 space-y-2">
+              {meta?.note?.includes('rate-limit') || meta?.note?.includes('temporarily') ? (
+                <>
+                  <p className="font-medium text-amber-700">⏳ OSM Overpass rate-limited</p>
+                  <p className="text-xs text-gray-400">Public Overpass mirrors are temporarily throttled due to high usage. Road data will load automatically within 1–2 hours. All other features (analytics, chatbot, complaints) work normally.</p>
+                </>
+              ) : (
+                <>
+                  <p>No named roads found nearby in OpenStreetMap.</p>
+                  <a href="https://www.openstreetmap.org/edit" target="_blank" rel="noopener noreferrer"
+                    className="text-brand-600 hover:underline text-xs flex items-center gap-1">
+                    <ExternalLink size={11} /> Contribute road data to OSM
+                  </a>
+                </>
+              )}
             </div>
           ) : (
             <>

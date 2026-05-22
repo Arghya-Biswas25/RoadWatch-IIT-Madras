@@ -31,7 +31,12 @@ router.get('/', async (req, res) => {
   if (osmRoads.length === 0) {
     return res.json({
       roads: [],
-      meta: { source: 'OpenStreetMap Overpass API', note: 'No named roads found in this area, or OSM data is sparse. Try a wider radius.' },
+      meta: {
+        source: 'OpenStreetMap Overpass API',
+        note: 'Road data temporarily unavailable — public Overpass mirrors may be rate-limited. ' +
+              'This resolves automatically within 1–2 hours. ' +
+              'The map, weather, analytics, complaints, and chatbot continue to work normally.',
+      },
     });
   }
 
