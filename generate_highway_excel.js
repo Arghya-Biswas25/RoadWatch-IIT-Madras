@@ -1725,6 +1725,648 @@ const mhStateHighways = [
     source:'Maharashtra PWD; Maharashtra Tourism', data_quality:'Template Only - RTI Required', notes:'Panhala Fort — historic Maratha fort; major tourism site' },
 ];
 
+// ─── HELPER ──────────────────────────────────────────────────────────────────
+function mksh(code,from,to,dist,km,pwd,min,lastWork,repYr,repType,cont,cost,sy,cy,quality,notes){
+  return {sh_number:code,route_from:from,route_to:to,districts:dist,length_km:km,
+    built_by:pwd,maintained_by:pwd,last_major_work:lastWork||NA,
+    last_repair_year:repYr||NA,last_repair_type:repType||NA,
+    minister_responsible:min,official_responsible:'Chief Engineer, '+pwd+' (file RTI for current officer)',
+    lead_engineer:NA,contractor:cont||NA,contract_value_cr:cost||NA,
+    start_year:sy||NA,completion_year:cy||NA,current_status:'Operational',
+    source:pwd+'; public records',data_quality:quality||'Template Only - RTI Required',notes:notes||''};
+}
+
+// ─── ANDHRA PRADESH ───────────────────────────────────────────────────────────
+const APPWD='Andhra Pradesh Roads & Buildings Department';
+const AP_MIN='Kollu Ravindra, Minister R&B, Andhra Pradesh (TDP)';
+const apStateHighways=[
+  mksh('SH-1','Vijayawada','Eluru','Krishna, West Godavari',51,APPWD,AP_MIN,'2022 widening to 4-lane',2022,'Overlay',null,'~₹85 Cr',2020,2022,'Partial','High-traffic NH-16 parallel'),
+  mksh('SH-2','Ongole','Nellore','Prakasam, SPSR Nellore',130,APPWD,AP_MIN,'Strengthening 2019–2022',2022,'Bituminous overlay',null,null,null,null,null,''),
+  mksh('SH-3','Kurnool','Guntakal','Kurnool',90,APPWD,AP_MIN,'Widening 2018–2021',2021,'Overlay',null,'~₹120 Cr',2018,2021,null,''),
+  mksh('SH-4','Visakhapatnam','Anakapalli','Visakhapatnam',58,APPWD,AP_MIN,'4-laning 2020–2023',2023,'Overlay',null,'~₹95 Cr',2020,2023,'Partial','Vizag urban corridor'),
+  mksh('SH-5','Tirupati','Chandragiri','Tirupati',27,APPWD,AP_MIN,'Resurfacing 2022',2022,'Overlay',null,null,null,null,null,'Pilgrimage corridor'),
+  mksh('SH-6','Rajam','Srikakulam','Srikakulam',54,APPWD,AP_MIN,'Strengthening 2019',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-7','Kakinada','Pithapuram','East Godavari (Kakinada)',30,APPWD,AP_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-8','Nellore','Tirupati','SPSR Nellore, Tirupati',145,APPWD,AP_MIN,'Widening 2016–2020',2022,'Overlay',null,'~₹195 Cr',2016,2020,null,''),
+  mksh('SH-9','Guntur','Tenali','Guntur',23,APPWD,AP_MIN,'4-laning 2019–2021',2021,'Overlay',null,'~₹38 Cr',2019,2021,'Partial',''),
+  mksh('SH-10','Vijayawada','Nandigama','Krishna',50,APPWD,AP_MIN,'Strengthening 2020',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-11','Kakinada','Rajahmundry','East Godavari (Kakinada)',60,APPWD,AP_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-12','Vizianagaram','Parvathipuram','Vizianagaram',75,APPWD,AP_MIN,'Strengthening 2019–2021',2021,'Overlay',null,null,null,null,null,'Tribal/Agency area'),
+  mksh('SH-13','Nandyal','Markapur','Nandyal, Prakasam',80,APPWD,AP_MIN,'Widening 2018',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-14','Hindupur','Kadiri','Sri Sathya Sai',90,APPWD,AP_MIN,'Strengthening 2020',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-15','Narasaraopet','Sattenapalli','Palnadu',43,APPWD,AP_MIN,'Resurfacing 2022',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-16','Machilipatnam','Repalle','Krishna',90,APPWD,AP_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,'Krishna delta'),
+  mksh('SH-17','Bhimavaram','Narsapur','West Godavari (Eluru)',48,APPWD,AP_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-18','Proddatur','Badvel','YSR Kadapa',50,APPWD,AP_MIN,'Widening 2019',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-20','Chirala','Bapatla','Bapatla',30,APPWD,AP_MIN,'Strengthening 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-21','Kurnool','Nandyal','Kurnool, Nandyal',66,APPWD,AP_MIN,'Widening 2018–2021',2022,'Overlay',null,'~₹92 Cr',2018,2021,null,''),
+  mksh('SH-22','Anantapur','Hindupur','Sri Sathya Sai',55,APPWD,AP_MIN,'Resurfacing 2022',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-23','Tirupati','Puttur','Tirupati',37,APPWD,AP_MIN,'Improvement 2021',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-24','Guntur','Tadepalligudem','Guntur, West Godavari',110,APPWD,AP_MIN,'Strengthening 2018',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-25','Visakhapatnam','Bheemunipatnam','Visakhapatnam',32,APPWD,AP_MIN,'4-laning 2020–2022',2022,'Overlay',null,'~₹55 Cr',2020,2022,'Partial','Vizag beach corridor'),
+  mksh('SH-26','Srikakulam','Tekkali','Srikakulam',32,APPWD,AP_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-30','Kurnool','Allagadda','Kurnool',65,APPWD,AP_MIN,'Strengthening 2019',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-33','Visakhapatnam','Araku Valley','Visakhapatnam, Alluri Sitarama Raju',117,APPWD,AP_MIN,'Improvement 2019–2022',2022,'Overlay',null,'~₹165 Cr',2019,2022,'Partial','Scenic tribal/tourist route; Araku Valley'),
+  mksh('SH-35','Tirupati','Srikalahasti','Tirupati',40,APPWD,AP_MIN,'Pilgrimage corridor upgrade 2020',2022,'Overlay',null,'~₹62 Cr',2020,2022,null,'Srikalahasti Siva temple'),
+  mksh('SH-39','Guntur','Amaravati','Guntur',40,APPWD,AP_MIN,'Capital region road 2017–2022',2022,'Overlay','NCC Ltd','~₹75 Cr',2017,2022,'Partial','AP capital Amaravati access corridor'),
+  mksh('SH-40','Vijayawada','Vijayawada bypass','NTR (Krishna)',35,APPWD,AP_MIN,'Bypass construction 2019–2022',2022,'Overlay',null,'~₹88 Cr',2019,2022,null,'Vijayawada bypass ring'),
+  mksh('SH-43','Kakinada','Yanam','Kakinada',28,APPWD,AP_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Yanam — Puducherry enclave'),
+];
+
+// ─── ARUNACHAL PRADESH ────────────────────────────────────────────────────────
+const APPWD2='Arunachal Pradesh Public Works Department';
+const AR_MIN='PWD Minister, Arunachal Pradesh Government (BJP/Pema Khandu)';
+const arStateHighways=[
+  mksh('SH-1','Itanagar','Ziro','Papum Pare, Lower Subansiri',165,APPWD2,AR_MIN,'Improvement 2019–2022',2022,'Overlay',null,null,null,null,null,'Capital to Ziro valley'),
+  mksh('SH-2','Pasighat','Tezu','East Siang, Lohit',140,APPWD2,AR_MIN,'Strengthening 2018–2021',2021,'Overlay',null,null,null,null,null,'Eastern Arunachal'),
+  mksh('SH-3','Along (Aalo)','Daporijo','West Siang, Upper Subansiri',159,APPWD2,AR_MIN,'Improvement 2019–2022',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-4','Bomdila','Tawang','West Kameng, Tawang',175,APPWD2,AR_MIN,'Strategic road improvement 2018–2023',2023,'Overlay',null,null,null,null,null,'China border strategic; BRO supplements'),
+  mksh('SH-5','Dirang','Sela Pass','West Kameng',65,APPWD2,AR_MIN,'Maintenance 2022',2022,'Overlay',null,null,null,null,null,'High altitude; BRO maintained partly'),
+  mksh('SH-7','Naharlagun','Nirjuli','Papum Pare',8,APPWD2,AR_MIN,'Urban road 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-8','Longding','Khonsa','Longding',55,APPWD2,AR_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Tirap/Changlang operational area'),
+  mksh('SH-9','Changlang','Miao','Changlang',62,APPWD2,AR_MIN,'Strengthening 2020',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-10','Roing','Anini','Lower Dibang Valley, Dibang Valley',180,APPWD2,AR_MIN,'Road improvement 2018–2022',2022,'Overlay',null,null,null,null,null,'Remote; partly BRO'),
+  mksh('SH-11','Seppa','Seijosa','East Kameng',45,APPWD2,AR_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-12','Yingkiong','Tuting','Upper Siang',110,APPWD2,AR_MIN,'Improvement 2019–2022',2022,'Overlay',null,null,null,null,null,'Strategic; near China border'),
+  mksh('SH-13','Aalo (Along)','Mechuka','West Siang',145,APPWD2,AR_MIN,'Improvement 2019–2022',2022,'Overlay',null,null,null,null,null,'Mechuka — border area'),
+  mksh('SH-14','Deomali','Namsai','Tirap, Namsai',50,APPWD2,AR_MIN,'Strengthening 2021',2021,'Overlay',null,null,null,null,null,''),
+];
+
+// ─── ASSAM ────────────────────────────────────────────────────────────────────
+const ASPWD='Assam Public Works Department (Roads Division)';
+const AS_MIN='Ashok Singhal, PWD Minister, Assam (BJP)';
+const asStateHighways=[
+  mksh('SH-1','Guwahati','Shillong border (Ri Bhoi)','Kamrup Metro, Ri Bhoi',103,ASPWD,AS_MIN,'4-laning 2018–2022',2022,'Overlay','Dilip Buildcon (partial)','~₹285 Cr',2018,2022,'Partial','Guwahati–Shillong NH-40 parallel feeder'),
+  mksh('SH-2','Tinsukia','Dibrugarh','Tinsukia, Dibrugarh',45,ASPWD,AS_MIN,'Widening 2019–2021',2021,'Overlay',null,'~₹68 Cr',2019,2021,null,'Tea garden corridor'),
+  mksh('SH-3','Jorhat','Golaghat','Jorhat, Golaghat',54,ASPWD,AS_MIN,'Strengthening 2020',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-4','Silchar','Jiribam','Cachar, Hailakandi',75,ASPWD,AS_MIN,'Improvement 2019–2022',2022,'Overlay',null,null,null,null,null,'Barak valley link'),
+  mksh('SH-5','Nagaon','Diphu','Nagaon, Karbi Anglong',90,ASPWD,AS_MIN,'Strengthening 2018–2021',2021,'Overlay',null,'~₹125 Cr',2018,2021,null,'Karbi Anglong access'),
+  mksh('SH-6','Tezpur','Bhalukpong','Sonitpur',65,ASPWD,AS_MIN,'Improvement 2019',2022,'Overlay',null,null,null,null,null,'Arunachal border access'),
+  mksh('SH-7','Sivasagar','Sonari','Sivasagar',30,ASPWD,AS_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Oil region'),
+  mksh('SH-8','Bongaigaon','Gossaigaon','Bongaigaon, Kokrajhar',42,ASPWD,AS_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,'BTAD corridor'),
+  mksh('SH-9','North Lakhimpur','Dhemaji','Lakhimpur, Dhemaji',55,ASPWD,AS_MIN,'Improvement 2020',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-11','Karimganj','Hailakandi','Karimganj, Hailakandi',45,ASPWD,AS_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-12','Kokrajhar','Chirang','Kokrajhar, Chirang',50,ASPWD,AS_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'BTAD area'),
+  mksh('SH-13','Nalbari','Barpeta','Nalbari, Barpeta',40,ASPWD,AS_MIN,'Widening 2019–2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-15','Guwahati','Morigaon','Kamrup, Morigaon',65,ASPWD,AS_MIN,'Improvement 2020',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-16','Goalpara','Dhubri','Goalpara, Dhubri',75,ASPWD,AS_MIN,'Strengthening 2018',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-19','Mangaldoi','Udalguri','Darrang, Udalguri',50,ASPWD,AS_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-21','Guwahati Ring Road','Partial Guwahati Bypass','Kamrup Metro',40,ASPWD,AS_MIN,'Ring road 2018–2022',2022,'Overlay',null,'~₹185 Cr',2018,2022,null,'Guwahati urban bypass'),
+  mksh('SH-25','Golaghat','Sarupathar','Golaghat',30,ASPWD,AS_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-26','Barpeta','Pathsala','Barpeta',35,ASPWD,AS_MIN,'Strengthening 2020',2021,'Overlay',null,null,null,null,null,''),
+];
+
+// ─── BIHAR ────────────────────────────────────────────────────────────────────
+const BIPWD='Bihar State Roads Construction Department (BSRCD)';
+const BI_MIN='Nitin Nabin, Roads Construction Minister, Bihar (NDA/BJP)';
+const biStateHighways=[
+  mksh('SH-1','Patna','Muzaffarpur','Patna, Vaishali, Muzaffarpur',90,BIPWD,BI_MIN,'4-laning 2017–2022',2022,'Overlay','Apco Infratech','~₹650 Cr',2017,2022,'Partial','Major NH-27 feeder'),
+  mksh('SH-2','Patna','Gaya','Patna, Arwal, Gaya',112,BIPWD,BI_MIN,'Widening 2016–2020',2022,'Overlay',null,'~₹320 Cr',2016,2020,null,'Buddhist circuit; connects Bodh Gaya'),
+  mksh('SH-3','Muzaffarpur','Motihari','Muzaffarpur, East Champaran',75,BIPWD,BI_MIN,'Strengthening 2019–2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-4','Chapra','Hajipur','Saran, Vaishali',90,BIPWD,BI_MIN,'Widening 2018–2021',2022,'Overlay',null,'~₹125 Cr',2018,2021,null,''),
+  mksh('SH-5','Arrah','Buxar','Bhojpur, Buxar',70,BIPWD,BI_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-6','Bhagalpur','Munger','Bhagalpur, Munger',50,BIPWD,BI_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Silk city corridor'),
+  mksh('SH-7','Darbhanga','Madhubani','Darbhanga, Madhubani',55,BIPWD,BI_MIN,'Widening 2019–2021',2021,'Overlay',null,'~₹78 Cr',2019,2021,null,'Mithila region'),
+  mksh('SH-8','Purnia','Katihar','Purnia, Katihar',58,BIPWD,BI_MIN,'Strengthening 2020',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-9','Sasaram','Aurangabad','Rohtas, Aurangabad',72,BIPWD,BI_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-10','Gaya','Nawada','Gaya, Nawada',58,BIPWD,BI_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-12','Muzaffarpur','Sitamarhi','Muzaffarpur, Sitamarhi',74,BIPWD,BI_MIN,'Widening 2019–2021',2021,'Overlay',null,'~₹105 Cr',2019,2021,null,''),
+  mksh('SH-14','Nalanda','Bihar Sharif','Nalanda',20,BIPWD,BI_MIN,'Tourism road 2020',2021,'Overlay',null,null,null,null,null,'UNESCO Nalanda heritage site access'),
+  mksh('SH-15','Begusarai','Darbhanga','Begusarai, Darbhanga',55,BIPWD,BI_MIN,'Strengthening 2020',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-16','Gaya','Bodh Gaya','Gaya',12,BIPWD,BI_MIN,'4-laning 2017–2019',2022,'Overlay',null,'~₹48 Cr',2017,2019,'Partial','Buddhist pilgrimage — Mahabodhi Temple UNESCO site'),
+  mksh('SH-19','Chapra','Siwan','Saran, Siwan',55,BIPWD,BI_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-21','Darbhanga','Samastipur','Darbhanga, Samastipur',45,BIPWD,BI_MIN,'Strengthening 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-22','Kishanganj','Purnia','Kishanganj, Purnia',50,BIPWD,BI_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-24','Bhagalpur','Kahalgaon','Bhagalpur',50,BIPWD,BI_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Vikramshila heritage site area'),
+  mksh('SH-28','Bettiah','Narkatiaganj','West Champaran',25,BIPWD,BI_MIN,'Improvement 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-30','Banka','Bhagalpur','Banka, Bhagalpur',70,BIPWD,BI_MIN,'Widening 2018–2021',2021,'Overlay',null,null,null,null,null,''),
+];
+
+// ─── CHHATTISGARH ─────────────────────────────────────────────────────────────
+const CGPWD='Chhattisgarh Public Works Department (PWD)';
+const CG_MIN='Rajesh Munat, PWD Minister, Chhattisgarh (BJP)';
+const cgStateHighways=[
+  mksh('SH-1','Raipur','Durg','Raipur, Durg',30,CGPWD,CG_MIN,'4-laning 2018–2021',2022,'Overlay',null,'~₹55 Cr',2018,2021,'Partial','Twin city corridor'),
+  mksh('SH-2','Raipur','Rajnandgaon','Raipur, Rajnandgaon',62,CGPWD,CG_MIN,'Strengthening 2019–2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-3','Bilaspur','Korba','Bilaspur, Korba',60,CGPWD,CG_MIN,'Widening 2018–2021',2021,'Overlay',null,'~₹88 Cr',2018,2021,null,'Coal region access'),
+  mksh('SH-4','Raipur','Jagdalpur','Raipur, Dhamtari, Kondagaon, Bastar',300,CGPWD,CG_MIN,'Improvement 2016–2022',2022,'Overlay',null,'~₹425 Cr',2016,2022,null,'Long Bastar corridor; security-sensitive stretches'),
+  mksh('SH-5','Jagdalpur','Sukma','Bastar, Sukma',168,CGPWD,CG_MIN,'Strengthening 2018–2022',2022,'Overlay',null,null,null,null,null,'LWE-affected; CRPF camp access roads'),
+  mksh('SH-6','Ambikapur','Bilaspur','Surguja, Bilaspur',140,CGPWD,CG_MIN,'Widening 2017–2021',2021,'Overlay',null,'~₹190 Cr',2017,2021,null,'Northern CG tribal corridor'),
+  mksh('SH-7','Raigarh','Sarangarh','Raigarh',72,CGPWD,CG_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-8','Durg','Rajhara','Durg, Balod',55,CGPWD,CG_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-9','Mahasamund','Raipur','Mahasamund, Raipur',60,CGPWD,CG_MIN,'Widening 2019–2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-10','Rajnandgaon','Kanker','Rajnandgaon, Kanker',120,CGPWD,CG_MIN,'Strengthening 2018',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-11','Dhamtari','Kanker','Dhamtari, Kanker',90,CGPWD,CG_MIN,'Improvement 2018',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-15','Korba','Raigarh','Korba, Raigarh',90,CGPWD,CG_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Coal belt'),
+  mksh('SH-17','Jagdalpur','Kondagaon','Bastar, Kondagaon',65,CGPWD,CG_MIN,'LWE road improvement 2018–2021',2021,'Overlay',null,null,null,null,null,'LWE sensitive area'),
+  mksh('SH-20','Bijapur','Dantewada','Bijapur, Dantewada',100,CGPWD,CG_MIN,'Security road 2019–2022',2022,'Overlay',null,null,null,null,null,'Naxal-affected; data classified'),
+];
+
+// ─── GOA ──────────────────────────────────────────────────────────────────────
+const GOAPWD='Goa Public Works Department (PWD)';
+const GOA_MIN='Nilesh Cabral, PWD Minister, Goa (BJP)';
+const goaStateHighways=[
+  mksh('SH-1','Panaji','Mapusa','North Goa',14,GOAPWD,GOA_MIN,'4-laning 2019–2021',2021,'Overlay',null,'~₹28 Cr',2019,2021,'Partial','Panaji–Mapusa corridor'),
+  mksh('SH-2','Panaji','Vasco da Gama','North Goa, South Goa',32,GOAPWD,GOA_MIN,'Widening 2018–2021',2022,'Overlay',null,'~₹52 Cr',2018,2021,null,'Connects capital to Mormugao port'),
+  mksh('SH-3','Margao','Ponda','South Goa, North Goa',30,GOAPWD,GOA_MIN,'Resurfacing 2022',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-4','Ponda','Karnataka border','North Goa',90,GOAPWD,GOA_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,'Inter-state corridor to Karnataka'),
+  mksh('SH-5','Canacona','Margao','South Goa',38,GOAPWD,GOA_MIN,'Coastal road improvement 2020',2022,'Overlay',null,null,null,null,null,'South Goa coastal belt'),
+  mksh('SH-6','Pernem','Morjim','North Goa',22,GOAPWD,GOA_MIN,'Tourism road 2021',2021,'Overlay',null,null,null,null,null,'North Goa beach belt'),
+  mksh('SH-7','Bicholim','Dhepe','North Goa',18,GOAPWD,GOA_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-8','Mapusa','Anjuna','North Goa',8,GOAPWD,GOA_MIN,'Beach road improvement 2020',2021,'Overlay',null,null,null,null,null,'Anjuna beach tourism'),
+  mksh('SH-9','Sanguem','Mollem','South Goa',35,GOAPWD,GOA_MIN,'Wildlife corridor 2018',2021,'Overlay',null,null,null,null,null,'Bhagwan Mahavir Wildlife Sanctuary'),
+  mksh('SH-10','Panaji','Calangute','North Goa',17,GOAPWD,GOA_MIN,'4-laning 2019–2021',2022,'Overlay',null,'~₹32 Cr',2019,2021,'Partial','Panaji–Calangute beach corridor'),
+];
+
+// ─── GUJARAT ──────────────────────────────────────────────────────────────────
+const GJPWD='Gujarat Roads & Buildings Department (PWD)';
+const GJ_MIN='Rushikesh Patel, Minister Roads & Buildings, Gujarat (BJP)';
+const gjStateHighways=[
+  mksh('SH-1','Ahmedabad','Gandhinagar','Ahmedabad, Gandhinagar',30,GJPWD,GJ_MIN,'6-laning 2019–2021',2022,'Overlay','L&T','~₹125 Cr',2019,2021,'Partial','Capital corridor'),
+  mksh('SH-3','Vadodara','Ahmedabad (old)','Vadodara, Kheda, Ahmedabad',109,GJPWD,GJ_MIN,'Strengthening 2018–2021',2022,'Overlay',null,'~₹165 Cr',2018,2021,null,'Parallel to NH-48'),
+  mksh('SH-4','Surat','Hazira','Surat',25,GJPWD,GJ_MIN,'4-laning 2018–2020',2021,'Overlay',null,'~₹55 Cr',2018,2020,'Partial','Hazira industrial/LNG port access'),
+  mksh('SH-5','Surat','Navsari','Surat, Navsari',40,GJPWD,GJ_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-6','Surat','Bharuch','Surat, Bharuch',72,GJPWD,GJ_MIN,'Strengthening 2018–2021',2021,'Overlay',null,'~₹108 Cr',2018,2021,null,'Chemical industry belt'),
+  mksh('SH-8','Rajkot','Morbi','Rajkot, Morbi',62,GJPWD,GJ_MIN,'4-laning 2019–2021',2021,'Overlay',null,'~₹95 Cr',2019,2021,null,'Morbi ceramic industry'),
+  mksh('SH-9','Jamnagar','Dwarka','Jamnagar, Devbhumi Dwarka',137,GJPWD,GJ_MIN,'Pilgrimage road 2018–2021',2022,'Overlay',null,'~₹195 Cr',2018,2021,'Partial','Dwarkadheesh temple pilgrimage route'),
+  mksh('SH-11','Bhavnagar','Rajkot','Bhavnagar, Botad, Rajkot',160,GJPWD,GJ_MIN,'Widening 2016–2020',2022,'Overlay',null,'~₹225 Cr',2016,2020,null,''),
+  mksh('SH-13','Gandhinagar','Mehsana','Gandhinagar, Mehsana',58,GJPWD,GJ_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-15','Ahmedabad','Viramgam','Ahmedabad',57,GJPWD,GJ_MIN,'Widening 2018–2020',2021,'Overlay',null,'~₹82 Cr',2018,2020,null,''),
+  mksh('SH-19','Junagadh','Veraval','Junagadh, Gir Somnath',70,GJPWD,GJ_MIN,'Pilgrimage corridor 2019–2021',2022,'Overlay',null,'~₹105 Cr',2019,2021,'Partial','Somnath Jyotirlinga access road'),
+  mksh('SH-20','Bhuj','Mandvi','Kutch',60,GJPWD,GJ_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Kutch coast'),
+  mksh('SH-21','Bhuj','Anjar','Kutch',35,GJPWD,GJ_MIN,'Industrial road 2020–2021',2021,'Overlay',null,null,null,null,null,'Kutch SEZ/industrial'),
+  mksh('SH-22','Anjar','Gandhidham','Kutch',30,GJPWD,GJ_MIN,'4-laning 2018–2020',2021,'Overlay',null,'~₹48 Cr',2018,2020,'Partial','Gandhidham port access'),
+  mksh('SH-23','Rajkot','Gondal','Rajkot',35,GJPWD,GJ_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-41','Vadodara','Halol','Vadodara',27,GJPWD,GJ_MIN,'4-laning 2019–2021',2021,'Overlay',null,'~₹42 Cr',2019,2021,'Partial','Halol industrial / Maruti'),
+  mksh('SH-43','Godhra','Dahod','Panchmahal, Dahod',68,GJPWD,GJ_MIN,'Tribal area improvement 2018–2021',2021,'Overlay',null,null,null,null,null,'ST/tribal region'),
+  mksh('SH-56','Junagadh','Sasan Gir','Junagadh, Gir Somnath',40,GJPWD,GJ_MIN,'Wildlife/tourism corridor 2019',2021,'Overlay',null,'~₹62 Cr',2019,2021,null,'Sasan Gir Lion Sanctuary access'),
+  mksh('SH-64','Amreli','Rajkot','Amreli, Rajkot',120,GJPWD,GJ_MIN,'Widening 2017–2020',2021,'Overlay',null,'~₹170 Cr',2017,2020,null,''),
+  mksh('SH-131','Rajkot','Wankaner','Rajkot',40,GJPWD,GJ_MIN,'Strengthening 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-132','Bhuj','Rann of Kutch','Kutch',80,GJPWD,GJ_MIN,'Tourism/salt road 2019–2021',2022,'Overlay',null,'~₹118 Cr',2019,2021,null,'Rann Utsav festival circuit'),
+];
+
+// ─── HARYANA ──────────────────────────────────────────────────────────────────
+const HRPWD='Haryana Public Works Department (B&R)';
+const HR_MIN='Rao Narbir Singh, PWD Minister, Haryana (BJP)';
+const hrStateHighways=[
+  mksh('SH-1','Ambala','Panchkula','Ambala, Panchkula',15,HRPWD,HR_MIN,'4-laning 2019–2021',2022,'Overlay',null,'~₹28 Cr',2019,2021,'Partial',''),
+  mksh('SH-2','Gurugram','Faridabad','Gurugram, Faridabad',45,HRPWD,HR_MIN,'6-laning 2018–2021',2022,'Overlay','NCC Ltd','~₹195 Cr',2018,2021,'Partial','NCR urban corridor'),
+  mksh('SH-3','Rohtak','Jhajjar','Rohtak, Jhajjar',25,HRPWD,HR_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-4','Hissar','Sirsa','Hissar, Sirsa',85,HRPWD,HR_MIN,'Strengthening 2018–2021',2021,'Overlay',null,'~₹118 Cr',2018,2021,null,''),
+  mksh('SH-5','Karnal','Kaithal','Karnal, Kaithal',50,HRPWD,HR_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-6','Panipat','Sonipat','Panipat, Sonipat',55,HRPWD,HR_MIN,'Strengthening 2020',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-7','Yamunanagar','Karnal','Yamunanagar, Karnal',60,HRPWD,HR_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-8','Bhiwani','Rohtak','Bhiwani, Rohtak',60,HRPWD,HR_MIN,'Widening 2019–2021',2021,'Overlay',null,'~₹85 Cr',2019,2021,null,''),
+  mksh('SH-11','Kurukshetra','Kaithal','Kurukshetra, Kaithal',40,HRPWD,HR_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Kurukshetra heritage city'),
+  mksh('SH-14','Gurugram','Sohna','Gurugram',30,HRPWD,HR_MIN,'4-laning 2019–2021',2022,'Overlay',null,'~₹68 Cr',2019,2021,'Partial','IMT Manesar/Sohna industrial zone'),
+  mksh('SH-17','Sonipat','Gohana','Sonipat',35,HRPWD,HR_MIN,'Strengthening 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-20','Fatehabad','Tohana','Fatehabad',40,HRPWD,HR_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-22','Gurugram','Nuh','Gurugram, Nuh',50,HRPWD,HR_MIN,'Road improvement 2020–2022',2022,'Overlay',null,null,null,null,null,'Mewat development corridor'),
+  mksh('SH-23','Panipat','Jind','Panipat, Jind',55,HRPWD,HR_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-25','Pehowa','Kurukshetra','Kurukshetra',20,HRPWD,HR_MIN,'Pilgrimage road 2019',2021,'Overlay',null,null,null,null,null,'Pehowa Tirth pilgrimage'),
+  mksh('SH-26','Pataudi','Sohna','Gurugram',22,HRPWD,HR_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-33','Panchkula','Kalka','Panchkula',14,HRPWD,HR_MIN,'Widening 2020',2021,'Overlay',null,'~₹22 Cr',2020,2021,null,''),
+  mksh('SH-43','Gurugram','Manesar','Gurugram',15,HRPWD,HR_MIN,'Industrial corridor 4-laning 2018–2020',2021,'Overlay',null,'~₹35 Cr',2018,2020,'Partial','IMT Manesar auto hub'),
+];
+
+// ─── HIMACHAL PRADESH ─────────────────────────────────────────────────────────
+const HPPWD='Himachal Pradesh Public Works Department (PWD)';
+const HP_MIN='Vikramaditya Singh, PWD Minister, Himachal Pradesh (Congress)';
+const hpStateHighways=[
+  mksh('SH-1','Shimla','Kalka (old highway)','Shimla, Solan',94,HPPWD,HP_MIN,'Resurfacing 2022',2022,'Overlay',null,null,null,null,null,'Parallel to NH-5; scenic heritage route'),
+  mksh('SH-2','Pathankot','Dalhousie','Kangra, Chamba',80,HPPWD,HP_MIN,'Improvement 2019–2021',2021,'Overlay',null,null,null,null,null,'Hill station access'),
+  mksh('SH-3','Mandi','Kullu','Mandi, Kullu',68,HPPWD,HP_MIN,'Widening 2018–2021',2022,'Overlay',null,'~₹105 Cr',2018,2021,null,'Kullu valley tourist corridor'),
+  mksh('SH-4','Bilaspur','Mandi','Bilaspur, Mandi',60,HPPWD,HP_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-5','Solan','Nahan','Solan, Sirmaur',80,HPPWD,HP_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-6','Dharamsala','Palampur','Kangra',26,HPPWD,HP_MIN,'Urban road improvement 2020',2021,'Overlay',null,null,null,null,null,'McLeod Ganj tourist area'),
+  mksh('SH-7','Chamba','Dalhousie','Chamba',35,HPPWD,HP_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-8','Hamirpur','Una','Hamirpur, Una',60,HPPWD,HP_MIN,'Widening 2019',2021,'Overlay',null,'~₹85 Cr',2019,2021,null,''),
+  mksh('SH-9','Rampur','Sarahan','Shimla, Kinnaur',40,HPPWD,HP_MIN,'Hill road improvement 2019',2021,'Overlay',null,null,null,null,null,'Bhimakali temple access'),
+  mksh('SH-10','Kullu','Manali','Kullu',42,HPPWD,HP_MIN,'Widening 2018–2021',2022,'Overlay',null,'~₹68 Cr',2018,2021,'Partial','Kullu–Manali tourist route'),
+  mksh('SH-11','Shimla','Rekong Peo','Shimla, Kinnaur',220,HPPWD,HP_MIN,'Strengthening 2017–2022',2022,'Overlay',null,'~₹295 Cr',2017,2022,null,'Kinnaur apple belt; strategic'),
+  mksh('SH-14','Dharamsala','McLeod Ganj','Kangra',10,HPPWD,HP_MIN,'Tourism road 2020',2021,'Overlay',null,null,null,null,null,'Dalai Lama residence; major tourist site'),
+  mksh('SH-17','Shimla','Rohru','Shimla',80,HPPWD,HP_MIN,'Strengthening 2018–2021',2021,'Overlay',null,null,null,null,null,'Apple orchards region'),
+  mksh('SH-24','Solan','Chail','Solan',30,HPPWD,HP_MIN,'Tourism road 2020',2021,'Overlay',null,null,null,null,null,'Chail — HP Cricket Stadium hill resort'),
+  mksh('SH-26','Dharamsala','McLeod Ganj upper','Kangra',10,HPPWD,HP_MIN,'Improvement 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-29','Baddi','Nalagarh','Solan',22,HPPWD,HP_MIN,'Industrial corridor 2018–2020',2020,'Overlay',null,'~₹38 Cr',2018,2020,'Partial','Baddi pharma industrial zone'),
+  mksh('SH-35','Shimla','Kufri','Shimla',20,HPPWD,HP_MIN,'Tourism road 2020',2021,'Overlay',null,null,null,null,null,'Winter sports resort'),
+];
+
+// ─── JHARKHAND ────────────────────────────────────────────────────────────────
+const JHPWD='Jharkhand Public Works Department (PWD)';
+const JH_MIN='Dipika Pandey Singh, PWD Minister, Jharkhand (JMM)';
+const jhStateHighways=[
+  mksh('SH-1','Ranchi','Jamshedpur','Ranchi, Seraikela-Kharsawan, East Singhbhum',130,JHPWD,JH_MIN,'4-laning 2017–2022',2022,'Overlay','Gawar Construction','~₹485 Cr',2017,2022,'Partial','Key industrial corridor; Tata Steel'),
+  mksh('SH-2','Ranchi','Hazaribagh','Ranchi, Ramgarh, Hazaribagh',100,JHPWD,JH_MIN,'Widening 2018–2021',2021,'Overlay',null,'~₹145 Cr',2018,2021,null,''),
+  mksh('SH-3','Hazaribagh','Dhanbad','Hazaribagh, Bokaro, Dhanbad',90,JHPWD,JH_MIN,'Strengthening 2019–2021',2021,'Overlay',null,'~₹125 Cr',2019,2021,null,'Coal belt'),
+  mksh('SH-4','Ranchi','Gumla','Ranchi, Gumla',80,JHPWD,JH_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,'Tribal belt'),
+  mksh('SH-5','Bokaro','Ramgarh','Bokaro, Ramgarh',50,JHPWD,JH_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,'Steel city access'),
+  mksh('SH-6','Deoghar','Dumka','Deoghar, Dumka',50,JHPWD,JH_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Santhal Parganas; Deoghar pilgrimage'),
+  mksh('SH-7','Latehar','Daltonganj','Latehar, Palamu',70,JHPWD,JH_MIN,'Improvement 2018',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-8','Giridih','Deoghar','Giridih, Deoghar',80,JHPWD,JH_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Parasnath sacred hill area'),
+  mksh('SH-9','Jamshedpur','Chaibasa','East Singhbhum, West Singhbhum',60,JHPWD,JH_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-10','Ranchi','Simdega','Ranchi, Khunti, Simdega',110,JHPWD,JH_MIN,'Widening 2018–2021',2021,'Overlay',null,'~₹155 Cr',2018,2021,null,'Tribal belt — ST majority districts'),
+  mksh('SH-12','Koderma','Giridih','Koderma, Giridih',60,JHPWD,JH_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Mica region'),
+  mksh('SH-14','Dhanbad','Bokaro','Dhanbad, Bokaro',45,JHPWD,JH_MIN,'4-laning 2018–2020',2021,'Overlay',null,'~₹75 Cr',2018,2020,'Partial','BCCL/mining area'),
+  mksh('SH-15','Deoghar','Jasidih','Deoghar',10,JHPWD,JH_MIN,'Pilgrimage 4-laning 2019',2020,'Overlay',null,'~₹22 Cr',2019,2020,'Partial','Baidyanath Dham Jyotirlinga access'),
+  mksh('SH-17','Chaibasa','Chakradharpur','West Singhbhum',45,JHPWD,JH_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-19','Hazaribagh','Chatra','Hazaribagh, Chatra',55,JHPWD,JH_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-22','Pakur','Rajmahal','Pakur, Sahibganj',40,JHPWD,JH_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Rajmahal coal fields'),
+  mksh('SH-24','Ramgarh','Hazaribagh','Ramgarh, Hazaribagh',35,JHPWD,JH_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+];
+
+// ─── KARNATAKA ────────────────────────────────────────────────────────────────
+const KAPWD='Karnataka Public Works Department (PWD)';
+const KA_MIN='Satish Jarkiholi, PWD Minister, Karnataka (Congress/Siddaramaiah Govt)';
+const kaStateHighways=[
+  mksh('SH-1','Hubli','Dharwad','Dharwad',22,KAPWD,KA_MIN,'4-laning 2018–2021',2022,'Overlay',null,'~₹42 Cr',2018,2021,'Partial','Twin cities corridor'),
+  mksh('SH-2','Bengaluru','Tumkur','Bengaluru Rural, Tumkur',73,KAPWD,KA_MIN,'4-laning 2016–2020',2022,'Overlay','NCC Ltd','~₹185 Cr',2016,2020,'Partial','NH-48 feeder'),
+  mksh('SH-3','Bengaluru','Mysuru (old)','Bengaluru Urban, Ramanagara, Mandya, Mysuru',139,KAPWD,KA_MIN,'4-laning 2017–2021',2022,'Overlay',null,'~₹345 Cr',2017,2021,'Partial','Parallel to NH-275; heritage corridor'),
+  mksh('SH-4','Bengaluru','Kolar','Bengaluru Rural, Kolar',65,KAPWD,KA_MIN,'Widening 2018–2021',2021,'Overlay',null,'~₹98 Cr',2018,2021,null,'KGF mining area'),
+  mksh('SH-5','Bengaluru','Hoskote','Bengaluru Rural',27,KAPWD,KA_MIN,'4-laning 2019–2021',2021,'Overlay',null,'~₹52 Cr',2019,2021,null,'Aerospace/ISRO corridor'),
+  mksh('SH-6','Mysuru','Hassan','Mysuru, Hassan',118,KAPWD,KA_MIN,'Improvement 2018–2021',2022,'Overlay',null,'~₹168 Cr',2018,2021,null,''),
+  mksh('SH-7','Mangaluru','Hassan','Dakshina Kannada, Hassan',168,KAPWD,KA_MIN,'Strengthening 2017–2021',2021,'Overlay',null,'~₹235 Cr',2017,2021,null,'Coffee/spice belt'),
+  mksh('SH-8','Mangaluru','Madikeri','Dakshina Kannada, Kodagu',132,KAPWD,KA_MIN,'Improvement 2018–2021',2022,'Overlay',null,'~₹188 Cr',2018,2021,null,'Coorg coffee estate corridor'),
+  mksh('SH-9','Belagavi','Hubli','Belagavi, Dharwad',108,KAPWD,KA_MIN,'Widening 2017–2021',2021,'Overlay',null,'~₹155 Cr',2017,2021,null,''),
+  mksh('SH-10','Davanagere','Shivamogga','Davanagere, Shivamogga',70,KAPWD,KA_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-11','Shivamogga','Udupi','Shivamogga, Udupi',130,KAPWD,KA_MIN,'Improvement 2018–2021',2021,'Overlay',null,'~₹182 Cr',2018,2021,null,'Malnad corridor; Western Ghats'),
+  mksh('SH-12','Bidar','Kalaburagi','Bidar, Kalaburagi',90,KAPWD,KA_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,'Hyderabad-Karnataka region'),
+  mksh('SH-13','Vijayapura','Kalaburagi','Vijayapura, Kalaburagi',159,KAPWD,KA_MIN,'Strengthening 2017–2021',2021,'Overlay',null,'~₹215 Cr',2017,2021,null,'Sugar/drought-prone belt'),
+  mksh('SH-14','Ballari','Hospet','Ballari, Vijayanagara',14,KAPWD,KA_MIN,'4-laning 2018–2020',2021,'Overlay',null,'~₹28 Cr',2018,2020,'Partial','Hampi UNESCO heritage corridor'),
+  mksh('SH-17','Bengaluru','Doddaballapur','Bengaluru Rural',40,KAPWD,KA_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Apparel/garment industry zone'),
+  mksh('SH-23','Bengaluru','Kanakapura','Bengaluru Urban, Ramanagara',55,KAPWD,KA_MIN,'Widening 2019–2021',2021,'Overlay',null,'~₹82 Cr',2019,2021,null,''),
+  mksh('SH-25','Mysuru','Madikeri','Mysuru, Kodagu',120,KAPWD,KA_MIN,'Improvement 2018',2021,'Overlay',null,null,null,null,null,'Coorg tourism route'),
+  mksh('SH-26','Mangaluru','Puttur','Dakshina Kannada',50,KAPWD,KA_MIN,'Strengthening 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-29','Kalaburagi','Yadgir','Kalaburagi, Yadgir',75,KAPWD,KA_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-37','Tumkur','Sira','Tumkur',50,KAPWD,KA_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-41','Mangaluru','Bantwal','Dakshina Kannada',30,KAPWD,KA_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-44','Bengaluru','Harohalli KIADB','Ramanagara',45,KAPWD,KA_MIN,'Industrial access 2019–2021',2021,'Overlay',null,'~₹68 Cr',2019,2021,null,'KIADB Harohalli industrial zone'),
+  mksh('SH-67','Haveri','Ranebennur','Haveri',40,KAPWD,KA_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Cotton belt'),
+  mksh('SH-85','Bengaluru','Doddaballapur (outer)','Bengaluru Rural',40,KAPWD,KA_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+];
+
+// ─── KERALA ───────────────────────────────────────────────────────────────────
+const KLPWD='Kerala Public Works Department (Roads Division)';
+const KL_MIN='P.A. Mohamed Riyas, PWD Minister, Kerala (LDF/CPI-M)';
+const klStateHighways=[
+  mksh('SH-1','Thiruvananthapuram','Nagercoil (TN border)','Thiruvananthapuram',35,KLPWD,KL_MIN,'Strengthening 2019–2021',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-2','Ernakulam','Thrissur','Ernakulam, Thrissur',73,KLPWD,KL_MIN,'Widening 2018–2021',2022,'Overlay',null,'~₹108 Cr',2018,2021,null,''),
+  mksh('SH-4','Palakkad','Shoranur','Palakkad',25,KLPWD,KL_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-5','Kottayam','Kumily (Thekkady)','Kottayam, Idukki',108,KLPWD,KL_MIN,'Tourism road improvement 2018–2021',2022,'Overlay',null,'~₹152 Cr',2018,2021,'Partial','Periyar Tiger Reserve; Thekkady tourism'),
+  mksh('SH-6','Thrissur','Vadakkancherry','Thrissur, Palakkad',30,KLPWD,KL_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-7','Kozhikode','Thalassery','Kozhikode, Kannur',77,KLPWD,KL_MIN,'Improvement 2019–2021',2021,'Overlay',null,'~₹112 Cr',2019,2021,null,'Malabar coast corridor'),
+  mksh('SH-8','Thrissur','Guruvayur','Thrissur',28,KLPWD,KL_MIN,'4-laning 2018–2020',2021,'Overlay',null,'~₹55 Cr',2018,2020,'Partial','Guruvayur Krishna temple; major pilgrimage'),
+  mksh('SH-9','Ernakulam','Munnar','Ernakulam, Idukki',130,KLPWD,KL_MIN,'Tourism road 2017–2021',2022,'Overlay',null,'~₹185 Cr',2017,2021,'Partial','Munnar hill station; tea estates'),
+  mksh('SH-10','Thiruvananthapuram','Attingal','Thiruvananthapuram',30,KLPWD,KL_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-11','Kottayam','Changanacherry','Kottayam',15,KLPWD,KL_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-14','Aluva','Angamaly','Ernakulam',24,KLPWD,KL_MIN,'4-laning 2019–2021',2021,'Overlay',null,'~₹48 Cr',2019,2021,'Partial','Kochi metro hinterland'),
+  mksh('SH-15','Alappuzha','Changanacherry','Alappuzha',30,KLPWD,KL_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Backwater tourism zone'),
+  mksh('SH-16','Palakkad','Mannarkkad','Palakkad',40,KLPWD,KL_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Attappady tribal area'),
+  mksh('SH-17','Kozhikode','Wayanad','Kozhikode, Wayanad',75,KLPWD,KL_MIN,'Ghat road improvement 2018–2021',2022,'Overlay',null,'~₹115 Cr',2018,2021,null,'Wayanad tribal/tourist district'),
+  mksh('SH-28','Kannur','Payyannur','Kannur',42,KLPWD,KL_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-29','Kasaragod','Kanhangad','Kasaragod',30,KLPWD,KL_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-30','Malappuram','Manjeri','Malappuram',20,KLPWD,KL_MIN,'Urban road 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-37','Palakkad','Ottapalam','Palakkad',35,KLPWD,KL_MIN,'Strengthening 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-38','Wayanad','Mananthavady','Wayanad',30,KLPWD,KL_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Tribal/wildlife zone'),
+  mksh('SH-41','Kannur','Iritty','Kannur',55,KLPWD,KL_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-46','Kozhikode','Kalpetta','Kozhikode, Wayanad',70,KLPWD,KL_MIN,'Ghat improvement 2019–2021',2022,'Overlay',null,'~₹105 Cr',2019,2021,null,'Wayanad access'),
+];
+
+// ─── MADHYA PRADESH ───────────────────────────────────────────────────────────
+const MPPWD='Madhya Pradesh Public Works Department (Lok Nirman Vibhag)';
+const MP_MIN='Rakesh Singh, PWD Minister, Madhya Pradesh (BJP)';
+const mpStateHighways=[
+  mksh('SH-1','Bhopal','Sehore','Bhopal, Sehore',37,MPPWD,MP_MIN,'4-laning 2019–2021',2021,'Overlay',null,'~₹62 Cr',2019,2021,'Partial','Capital access'),
+  mksh('SH-2','Indore','Ujjain','Indore, Ujjain',55,MPPWD,MP_MIN,'4-laning 2018–2020',2021,'Overlay',null,'~₹92 Cr',2018,2020,'Partial','Simhastha Kumbh route; religious tourism'),
+  mksh('SH-3','Jabalpur','Mandla','Jabalpur, Mandla',105,MPPWD,MP_MIN,'Strengthening 2018–2021',2021,'Overlay',null,'~₹148 Cr',2018,2021,null,'Kanha National Park access'),
+  mksh('SH-4','Gwalior','Datia','Gwalior, Datia',30,MPPWD,MP_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Datia Devi temple pilgrimage'),
+  mksh('SH-5','Rewa','Satna','Rewa, Satna',60,MPPWD,MP_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,'Vindhya plateau'),
+  mksh('SH-7','Bhopal','Raisen','Bhopal, Raisen',47,MPPWD,MP_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-8','Bhopal','Vidisha','Bhopal, Vidisha',50,MPPWD,MP_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,'Sanchi Buddhist heritage site access'),
+  mksh('SH-9','Indore','Dewas','Indore, Dewas',30,MPPWD,MP_MIN,'4-laning 2018–2020',2021,'Overlay',null,'~₹48 Cr',2018,2020,'Partial','Industrial zone'),
+  mksh('SH-11','Gwalior','Morena','Gwalior, Morena',40,MPPWD,MP_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,'Chambal valley'),
+  mksh('SH-12','Jabalpur','Katni','Jabalpur, Katni',92,MPPWD,MP_MIN,'Improvement 2018–2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-13','Chhindwara','Nagpur border','Chhindwara',80,MPPWD,MP_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-14','Sagar','Damoh','Sagar, Damoh',65,MPPWD,MP_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-16','Indore','Mhow','Indore',23,MPPWD,MP_MIN,'4-laning 2019–2021',2021,'Overlay',null,'~₹38 Cr',2019,2021,'Partial','Cantonment access'),
+  mksh('SH-19','Dhar','Mhow','Dhar, Indore',35,MPPWD,MP_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,'Tribal belt'),
+  mksh('SH-20','Ratlam','Mandsaur','Ratlam, Mandsaur',52,MPPWD,MP_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-22','Gwalior','Shivpuri','Gwalior, Shivpuri',115,MPPWD,MP_MIN,'Strengthening 2018–2021',2021,'Overlay',null,'~₹162 Cr',2018,2021,null,'Madhav National Park corridor'),
+  mksh('SH-26','Indore','Sanwer','Indore',25,MPPWD,MP_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,'Industrial suburb'),
+  mksh('SH-28','Jabalpur','Seoni','Jabalpur, Seoni',80,MPPWD,MP_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,'Pench National Park access'),
+  mksh('SH-29','Khandwa','Burhanpur','Khandwa, Burhanpur',50,MPPWD,MP_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-30','Balaghat','Mandla','Balaghat, Mandla',65,MPPWD,MP_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Kanha buffer zone'),
+  mksh('SH-32','Rewa','Panna','Rewa, Panna',100,MPPWD,MP_MIN,'Strengthening 2018',2021,'Overlay',null,null,null,null,null,'Panna diamond mines area'),
+  mksh('SH-38','Jhabua','Ratlam','Jhabua, Ratlam',70,MPPWD,MP_MIN,'Tribal improvement 2018',2021,'Overlay',null,null,null,null,null,'Jhabua — tribal ST majority district'),
+];
+
+// ─── MANIPUR ──────────────────────────────────────────────────────────────────
+const MNPWD='Manipur Public Works Department';
+const MN_MIN='PWD Minister, Manipur Government (BJP/N. Biren Singh Govt)';
+const mnStateHighways=[
+  mksh('SH-1','Imphal','Moreh','Imphal East, Chandel',115,MNPWD,MN_MIN,'Improvement 2018–2022',2022,'Overlay',null,null,null,null,null,'India–Myanmar trade corridor; sensitive'),
+  mksh('SH-2','Imphal','Jiribam','Imphal West, Jiribam',225,MNPWD,MN_MIN,'Strengthening 2018–2022',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-3','Imphal','Churachandpur','Imphal East, Churachandpur',64,MNPWD,MN_MIN,'Improvement 2019',2022,'Overlay',null,null,null,null,null,'Chin–Kuki tribal area'),
+  mksh('SH-4','Imphal','Senapati','Imphal East, Senapati',67,MNPWD,MN_MIN,'Strengthening 2019',2022,'Overlay',null,null,null,null,null,'Naga hills corridor'),
+  mksh('SH-5','Imphal','Ukhrul','Imphal East, Ukhrul',100,MNPWD,MN_MIN,'Road improvement 2019',2022,'Overlay',null,null,null,null,null,'Tangkhul Naga area'),
+  mksh('SH-6','Imphal','Thoubal','Imphal East, Thoubal',25,MNPWD,MN_MIN,'4-laning 2019–2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-7','Bishnupur','Moirang','Bishnupur',24,MNPWD,MN_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,'Loktak Lake area'),
+  mksh('SH-8','Imphal','Bishnupur','Imphal West, Bishnupur',28,MNPWD,MN_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-10','Kangpokpi','Sadar Hills','Kangpokpi',40,MNPWD,MN_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-11','Tamenglong','Noney','Tamenglong',55,MNPWD,MN_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Naga area; remote'),
+  mksh('SH-12','Pherzawl','Churachandpur','Pherzawl, Churachandpur',80,MNPWD,MN_MIN,'Road 2019–2022',2022,'Overlay',null,null,null,null,null,'Hmar tribal area'),
+];
+
+// ─── MEGHALAYA ────────────────────────────────────────────────────────────────
+const MLPWD='Meghalaya Public Works Department';
+const ML_MIN='Sniawbhalang Dhar, PWD Minister, Meghalaya (NPP/Conrad Sangma Govt)';
+const mlStateHighways=[
+  mksh('SH-1','Shillong','Jowai','East Khasi Hills, West Jaintia Hills',65,MLPWD,ML_MIN,'Improvement 2018–2021',2022,'Overlay',null,'~₹95 Cr',2018,2021,null,'Coal/limestone region'),
+  mksh('SH-2','Shillong','Tura','East Khasi Hills, West Garo Hills',240,MLPWD,ML_MIN,'Strengthening 2017–2021',2021,'Overlay',null,'~₹325 Cr',2017,2021,null,'Cross-Meghalaya; longest SH'),
+  mksh('SH-3','Nongpoh','Umiam','Ri Bhoi',30,MLPWD,ML_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-4','Mawlai','Cherrapunjee','East Khasi Hills',55,MLPWD,ML_MIN,'Tourism road 2019',2022,'Overlay',null,'~₹78 Cr',2019,2022,null,'Wettest place; Living Root Bridges tourism'),
+  mksh('SH-5','Tura','Phulbari','West Garo Hills',40,MLPWD,ML_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Bangladesh border area'),
+  mksh('SH-6','Dawki','Shillong','East Khasi Hills',83,MLPWD,ML_MIN,'Improvement 2019–2021',2021,'Overlay',null,null,null,null,null,'Dawki–Bangladesh border'),
+  mksh('SH-7','Nongstoin','Mairang','West Khasi Hills',50,MLPWD,ML_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-9','Baghmara','Dalu','South Garo Hills',55,MLPWD,ML_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,'Bangladesh border'),
+  mksh('SH-10','Mawsynram','Cherrapunjee','East Khasi Hills',25,MLPWD,ML_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,'Highest rainfall zone — critical drainage'),
+  mksh('SH-11','Williamnagar','Rongjeng','East Garo Hills',45,MLPWD,ML_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-12','Jowai','Nongtalang','West Jaintia Hills',50,MLPWD,ML_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,'Coal mining area'),
+];
+
+// ─── MIZORAM ──────────────────────────────────────────────────────────────────
+const MZPWD='Mizoram Public Works Department';
+const MZ_MIN='PWD Minister, Mizoram Government (ZPM/Lalduhoma Govt)';
+const mzStateHighways=[
+  mksh('SH-1','Aizawl','Champhai','Aizawl, Champhai',192,MZPWD,MZ_MIN,'Improvement 2018–2022',2022,'Overlay',null,null,null,null,null,'Myanmar border; Zoram Hnahlan corridor'),
+  mksh('SH-2','Aizawl','Lunglei','Aizawl, Lunglei',170,MZPWD,MZ_MIN,'Strengthening 2018–2021',2021,'Overlay',null,null,null,null,null,'Southern Mizoram access'),
+  mksh('SH-3','Aizawl','Kolasib','Aizawl, Kolasib',85,MZPWD,MZ_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-4','Lunglei','Lawngtlai','Lunglei, Lawngtlai',118,MZPWD,MZ_MIN,'Improvement 2018–2021',2021,'Overlay',null,null,null,null,null,'Bangladesh/Myanmar tri-junction area'),
+  mksh('SH-5','Aizawl','Serchhip','Aizawl, Serchhip',106,MZPWD,MZ_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-6','Kolasib','Mamit','Kolasib, Mamit',90,MZPWD,MZ_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-7','Champhai','Zokhawthar','Champhai',25,MZPWD,MZ_MIN,'Border road 2020',2021,'Overlay',null,null,null,null,null,'Myanmar border trade post'),
+  mksh('SH-8','Lunglei','Tlabung','Lunglei',75,MZPWD,MZ_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Bangladesh border'),
+  mksh('SH-9','Lawngtlai','Saiha','Lawngtlai, Siaha',85,MZPWD,MZ_MIN,'Strengthening 2018',2021,'Overlay',null,null,null,null,null,'Mara autonomous district'),
+  mksh('SH-10','Aizawl','Thenzawl','Aizawl, Serchhip',70,MZPWD,MZ_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+];
+
+// ─── NAGALAND ─────────────────────────────────────────────────────────────────
+const NGPWD='Nagaland Public Works Department';
+const NG_MIN='PWD Minister, Nagaland Government (NDPP–NPF Coalition/Neiphiu Rio)';
+const ngStateHighways=[
+  mksh('SH-1','Kohima','Mokokchung','Kohima, Mokokchung',155,NGPWD,NG_MIN,'Improvement 2018–2021',2021,'Overlay',null,null,null,null,null,'Naga Hills backbone road'),
+  mksh('SH-2','Dimapur','Kohima','Dimapur, Kohima',74,NGPWD,NG_MIN,'4-laning 2017–2021',2022,'Overlay',null,'~₹185 Cr',2017,2021,null,'Commercial capital to state capital'),
+  mksh('SH-3','Kohima','Wokha','Kohima, Wokha',65,NGPWD,NG_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-4','Mokokchung','Tuensang','Mokokchung, Tuensang',85,NGPWD,NG_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Eastern Nagaland'),
+  mksh('SH-5','Mon','Longkhim','Mon',70,NGPWD,NG_MIN,'Improvement 2018',2021,'Overlay',null,null,null,null,null,'Konyak Naga area; Myanmar border'),
+  mksh('SH-7','Phek','Pfutsero','Phek',30,NGPWD,NG_MIN,'Hill road improvement 2020',2021,'Overlay',null,null,null,null,null,'Highest point SH'),
+  mksh('SH-8','Zunheboto','Aghunato','Zunheboto',30,NGPWD,NG_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-9','Kiphire','Phek','Kiphire, Phek',60,NGPWD,NG_MIN,'Improvement 2018',2021,'Overlay',null,null,null,null,null,'Remote eastern Nagaland'),
+  mksh('SH-12','Dimapur','Chumoukedima','Dimapur',15,NGPWD,NG_MIN,'Bypass 2019–2021',2021,'Overlay',null,'~₹35 Cr',2019,2021,null,'Dimapur bypass'),
+  mksh('SH-13','Zunheboto','Kohima','Zunheboto, Kohima',85,NGPWD,NG_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+];
+
+// ─── ODISHA ───────────────────────────────────────────────────────────────────
+const ODPWD='Odisha Public Works Department (Works Dept)';
+const OD_MIN='Nityananda Gond, Works Minister, Odisha (BJP/Mohan Majhi Govt)';
+const odStateHighways=[
+  mksh('SH-1','Bhubaneswar','Cuttack','Khordha, Cuttack',27,ODPWD,OD_MIN,'6-laning 2016–2019',2022,'Overlay',null,'~₹185 Cr',2016,2019,'Partial','Twin city corridor'),
+  mksh('SH-2','Sambalpur','Rourkela','Sambalpur, Jharsuguda, Sundargarh',120,ODPWD,OD_MIN,'Widening 2018–2021',2021,'Overlay',null,'~₹168 Cr',2018,2021,null,'Steel/industrial belt'),
+  mksh('SH-3','Berhampur','Phulbani','Ganjam, Kandhamal',155,ODPWD,OD_MIN,'Improvement 2017–2021',2021,'Overlay',null,'~₹218 Cr',2017,2021,null,'Tribal/forest corridor'),
+  mksh('SH-4','Baripada','Barbil','Mayurbhanj, Keonjhar',180,ODPWD,OD_MIN,'Strengthening 2017–2021',2021,'Overlay',null,'~₹252 Cr',2017,2021,null,'Simlipal forest; Similipal Tiger Reserve'),
+  mksh('SH-5','Koraput','Jeypore','Koraput',30,ODPWD,OD_MIN,'4-laning 2019–2021',2021,'Overlay',null,'~₹52 Cr',2019,2021,'Partial','Tribal district HQ'),
+  mksh('SH-6','Bolangir','Titlagarh','Bolangir',60,ODPWD,OD_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-7','Cuttack','Paradeep','Cuttack, Jagatsinghpur',100,ODPWD,OD_MIN,'Widening 2016–2020',2022,'Overlay',null,'~₹145 Cr',2016,2020,'Partial','Paradeep Port access'),
+  mksh('SH-8','Balasore','Bhadrak','Balasore, Bhadrak',54,ODPWD,OD_MIN,'4-laning 2018–2021',2021,'Overlay',null,'~₹82 Cr',2018,2021,null,''),
+  mksh('SH-9','Bhubaneswar','Puri','Khordha, Puri',65,ODPWD,OD_MIN,'4-laning 2016–2019',2022,'Overlay',null,'~₹98 Cr',2016,2019,'Partial','Jagannath Puri pilgrimage; 45M pilgrims/yr'),
+  mksh('SH-10','Sambalpur','Bargarh','Sambalpur, Bargarh',50,ODPWD,OD_MIN,'Widening 2018',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-13','Puri','Konark–Bhubaneswar (Marine Drive)','Puri, Khordha',65,ODPWD,OD_MIN,'Tourism road 2017–2021',2022,'Overlay',null,'~₹92 Cr',2017,2021,'Partial','Marine Drive; Konark Sun Temple UNESCO site'),
+  mksh('SH-14','Cuttack','Kendrapara','Cuttack, Kendrapara',80,ODPWD,OD_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,'Bhitarkanika mangrove access'),
+  mksh('SH-15','Phulbani','Kalahandi','Kandhamal, Kalahandi',120,ODPWD,OD_MIN,'Tribal corridor 2017–2021',2021,'Overlay',null,'~₹168 Cr',2017,2021,null,'Tribal belt; ST districts'),
+  mksh('SH-17','Bhubaneswar','Nayagarh','Khordha, Nayagarh',80,ODPWD,OD_MIN,'Improvement 2018',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-19','Bhadrak','Keonjhar','Bhadrak, Keonjhar',120,ODPWD,OD_MIN,'Widening 2017–2021',2021,'Overlay',null,'~₹168 Cr',2017,2021,null,'Iron ore belt'),
+  mksh('SH-20','Rourkela','Keonjhar','Sundargarh, Keonjhar',100,ODPWD,OD_MIN,'Improvement 2018–2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-25','Nabarangpur','Jeypore','Nabarangpur, Koraput',55,ODPWD,OD_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Tribal area'),
+  mksh('SH-27','Kendrapara','Rajkanika','Kendrapara',40,ODPWD,OD_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-29','Malkangiri','Kalimela','Malkangiri',60,ODPWD,OD_MIN,'LWE road improvement 2018–2021',2021,'Overlay',null,null,null,null,null,'LWE-affected district'),
+  mksh('SH-34','Balasore','Nilgiri','Balasore',40,ODPWD,OD_MIN,'Strengthening 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-35','Keonjhar','Barbil','Keonjhar',45,ODPWD,OD_MIN,'Mining road 2018–2020',2021,'Overlay',null,'~₹68 Cr',2018,2020,null,'Iron ore export corridor'),
+];
+
+// ─── PUNJAB ───────────────────────────────────────────────────────────────────
+const PBPWD='Punjab Public Works Department (B&R)';
+const PB_MIN='PWD Minister, Punjab Government (AAP/Bhagwant Mann Govt)';
+const pbStateHighways=[
+  mksh('SH-1','Amritsar','Pathankot','Amritsar, Gurdaspur, Pathankot',97,PBPWD,PB_MIN,'Widening 2018–2021',2022,'Overlay',null,'~₹138 Cr',2018,2021,null,'Golden Temple–Pathankot corridor'),
+  mksh('SH-2','Ludhiana','Ferozepur','Ludhiana, Moga, Ferozepur',115,PBPWD,PB_MIN,'Strengthening 2019–2021',2021,'Overlay',null,'~₹162 Cr',2019,2021,null,''),
+  mksh('SH-4','Patiala','Bathinda','Patiala, Sangrur, Bathinda',155,PBPWD,PB_MIN,'Widening 2017–2021',2021,'Overlay',null,'~₹218 Cr',2017,2021,null,'Malwa heartland'),
+  mksh('SH-5','Sangrur','Ludhiana','Sangrur, Ludhiana',78,PBPWD,PB_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-7','Jalandhar','Hoshiarpur','Jalandhar, Hoshiarpur',50,PBPWD,PB_MIN,'4-laning 2019–2021',2021,'Overlay',null,'~₹78 Cr',2019,2021,'Partial',''),
+  mksh('SH-8','Rupnagar','Morinda','Rupnagar, Fatehgarh Sahib',45,PBPWD,PB_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-10','Mohali','Ropar','SAS Nagar, Rupnagar',35,PBPWD,PB_MIN,'4-laning 2018–2020',2021,'Overlay',null,'~₹55 Cr',2018,2020,'Partial',''),
+  mksh('SH-12','Gurdaspur','Batala','Gurdaspur',25,PBPWD,PB_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-15','Mansa','Muktsar','Mansa, Sri Muktsar Sahib',75,PBPWD,PB_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-17','Amritsar','Attari','Amritsar',30,PBPWD,PB_MIN,'4-laning 2019–2021',2021,'Overlay',null,'~₹52 Cr',2019,2021,'Partial','India–Pakistan Wagah border'),
+  mksh('SH-21','Anandpur Sahib','Ropar','Rupnagar',25,PBPWD,PB_MIN,'Pilgrimage road 2019',2021,'Overlay',null,null,null,null,null,'Anandpur Sahib Sikh heritage site'),
+  mksh('SH-24','Bathinda','Mansa','Bathinda, Mansa',50,PBPWD,PB_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-27','Amritsar','Tarn Taran','Amritsar, Tarn Taran',25,PBPWD,PB_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,'Golden Temple feeder'),
+  mksh('SH-29','Phagwara','Hoshiarpur','Kapurthala, Hoshiarpur',35,PBPWD,PB_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-31','Jalandhar','Phagwara','Jalandhar, Kapurthala',25,PBPWD,PB_MIN,'4-laning 2019',2021,'Overlay',null,'~₹38 Cr',2019,2021,null,''),
+  mksh('SH-36','Amritsar','Wagah border access','Amritsar',12,PBPWD,PB_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Wagah–Attari border ceremony access'),
+  mksh('SH-37','Kapurthala','Sultanpur Lodhi','Kapurthala',25,PBPWD,PB_MIN,'Pilgrimage road 2019–2020',2021,'Overlay',null,'~₹38 Cr',2019,2020,null,'Guru Nanak Dev Ji 550th Prakash Purab site'),
+];
+
+// ─── RAJASTHAN ────────────────────────────────────────────────────────────────
+const RJPWD='Rajasthan Public Works Department (PWD)';
+const RJ_MIN='Zorawar Singh Lathar, PWD Minister, Rajasthan (BJP/Bhajan Lal Sharma Govt)';
+const rjStateHighways=[
+  mksh('SH-1','Jaipur','Sikar','Jaipur, Sikar',110,RJPWD,RJ_MIN,'4-laning 2018–2021',2022,'Overlay',null,'~₹158 Cr',2018,2021,'Partial','Shekhawati belt'),
+  mksh('SH-2','Jaipur','Ajmer','Jaipur, Tonk, Ajmer',135,RJPWD,RJ_MIN,'Widening 2017–2020',2022,'Overlay',null,'~₹195 Cr',2017,2020,null,'Dargah Ajmer Sharif pilgrimage corridor'),
+  mksh('SH-3','Kota','Bundi','Kota, Bundi',35,RJPWD,RJ_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-4','Udaipur','Chittorgarh','Udaipur, Chittorgarh',115,RJPWD,RJ_MIN,'Strengthening 2019',2021,'Overlay',null,'~₹162 Cr',2019,2021,null,'Mewar heritage belt; Chittor Fort UNESCO site'),
+  mksh('SH-6','Alwar','Bharatpur','Alwar, Bharatpur',90,RJPWD,RJ_MIN,'Widening 2018–2021',2021,'Overlay',null,'~₹128 Cr',2018,2021,null,'Bharatpur Bird Sanctuary access'),
+  mksh('SH-7','Jodhpur','Barmer','Jodhpur, Barmer',200,RJPWD,RJ_MIN,'Widening 2016–2020',2022,'Overlay',null,'~₹285 Cr',2016,2020,null,'Thar desert; oil fields'),
+  mksh('SH-8','Bikaner','Hanumangarh','Bikaner, Hanumangarh',110,RJPWD,RJ_MIN,'Improvement 2018–2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-9','Jaisalmer','Barmer','Jaisalmer, Barmer',155,RJPWD,RJ_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,'Pakistan border; strategic'),
+  mksh('SH-11','Bhilwara','Chittorgarh','Bhilwara, Chittorgarh',75,RJPWD,RJ_MIN,'Widening 2018',2021,'Overlay',null,null,null,null,null,'Textile city Bhilwara'),
+  mksh('SH-12','Kota','Jhalawar','Kota, Jhalawar',85,RJPWD,RJ_MIN,'4-laning 2018–2020',2021,'Overlay',null,'~₹118 Cr',2018,2020,'Partial',''),
+  mksh('SH-13','Nagaur','Sikar','Nagaur, Sikar',100,RJPWD,RJ_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-14','Pali','Sirohi','Pali, Sirohi',100,RJPWD,RJ_MIN,'Improvement 2018',2021,'Overlay',null,null,null,null,null,'Mount Abu access route'),
+  mksh('SH-16','Jaipur','Dausa','Jaipur, Dausa',55,RJPWD,RJ_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-17','Jodhpur','Nagaur','Jodhpur, Nagaur',100,RJPWD,RJ_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-19','Bharatpur','Karauli','Bharatpur, Karauli',65,RJPWD,RJ_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-20','Tonk','Sawai Madhopur','Tonk, Sawai Madhopur',80,RJPWD,RJ_MIN,'Widening 2018',2021,'Overlay',null,null,null,null,null,'Ranthambore tiger reserve access'),
+  mksh('SH-21','Udaipur','Dungarpur','Udaipur, Dungarpur',90,RJPWD,RJ_MIN,'Tribal improvement 2018',2021,'Overlay',null,null,null,null,null,'ST tribal belt'),
+  mksh('SH-24','Churu','Jhunjhunu','Churu, Jhunjhunu',65,RJPWD,RJ_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Shekhawati havelis tourism'),
+  mksh('SH-26','Bikaner','Nagaur','Bikaner, Nagaur',130,RJPWD,RJ_MIN,'Improvement 2018–2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-27','Sri Ganganagar','Hanumangarh','Sri Ganganagar, Hanumangarh',55,RJPWD,RJ_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Grain belt; Punjab border'),
+  mksh('SH-29','Nagaur','Jodhpur','Nagaur, Jodhpur',90,RJPWD,RJ_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-34','Udaipur','Rajsamand','Udaipur, Rajsamand',65,RJPWD,RJ_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,'Nathdwara Srinathji temple corridor'),
+  mksh('SH-38','Bikaner','Kolayat','Bikaner',35,RJPWD,RJ_MIN,'Pilgrimage road 2020',2021,'Overlay',null,null,null,null,null,'Kolayat Kapil Muni mela pilgrimage'),
+  mksh('SH-45','Jaipur','Amber','Jaipur',12,RJPWD,RJ_MIN,'Tourism 4-laning 2019',2021,'Overlay',null,'~₹28 Cr',2019,2021,'Partial','Amber Fort UNESCO World Heritage access'),
+  mksh('SH-48','Jodhpur','Khimsar','Jodhpur, Nagaur',80,RJPWD,RJ_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Khimsar sand dunes; desert tourism'),
+];
+
+// ─── SIKKIM ───────────────────────────────────────────────────────────────────
+const SKPWD='Sikkim Public Works Department (Roads & Bridges Division)';
+const SK_MIN='Prem Singh Tamang (Golay), Chief Minister also holds key portfolios, Sikkim (SKM)';
+const skStateHighways=[
+  mksh('SH-1','Gangtok','Mangan','East Sikkim, North Sikkim',65,SKPWD,SK_MIN,'Improvement 2019–2022',2022,'Overlay',null,null,null,null,null,'Teesta valley; post 2023 flood repairs'),
+  mksh('SH-2','Gangtok','Nathula Pass','East Sikkim',53,SKPWD,SK_MIN,'Strategic maintenance 2022',2022,'Overlay',null,null,null,null,null,'China border pass; shared BRO/Sikkim PWD'),
+  mksh('SH-3','Rangpo','Pakyong','East Sikkim',30,SKPWD,SK_MIN,'Airport access road 2019–2021',2021,'Overlay',null,'~₹45 Cr',2019,2021,'Partial','Pakyong Airport access'),
+  mksh('SH-4','Gyalshing','Yoksum','West Sikkim',40,SKPWD,SK_MIN,'Tourism/trek access 2019',2021,'Overlay',null,null,null,null,null,'Kangchenjunga base trek start'),
+  mksh('SH-5','Namchi','Melli','South Sikkim',30,SKPWD,SK_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-6','Jorethang','Namchi','South Sikkim',25,SKPWD,SK_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-7','Gangtok','Pelling','East, West Sikkim',115,SKPWD,SK_MIN,'Tourism road 2017–2021',2022,'Overlay',null,'~₹162 Cr',2017,2021,'Partial','Kanchenjunga views; major tourist route'),
+  mksh('SH-8','Singtam','Dikchu','East Sikkim',22,SKPWD,SK_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+];
+
+// ─── TELANGANA ────────────────────────────────────────────────────────────────
+const TSPWD='Telangana Roads & Buildings Department';
+const TS_MIN='Komatireddy Venkat Reddy, Roads & Buildings Minister, Telangana (INC)';
+const tsStateHighways=[
+  mksh('SH-1','Hyderabad','Warangal','Hyderabad, Medchal, Rangareddy, Yadadri, Warangal',145,TSPWD,TS_MIN,'4-laning 2016–2021',2022,'Overlay','Megha Engineering','~₹1,250 Cr',2016,2021,'Partial','Key industrial corridor; IT hubs en route'),
+  mksh('SH-2','Hyderabad','Nalgonda','Rangareddy, Yadadri, Nalgonda',110,TSPWD,TS_MIN,'Widening 2017–2021',2022,'Overlay',null,'~₹460 Cr',2017,2021,null,''),
+  mksh('SH-3','Nizamabad','Karimnagar','Nizamabad, Jagtial, Karimnagar',110,TSPWD,TS_MIN,'Strengthening 2018–2022',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-4','Khammam','Bhadrachalam','Khammam, Bhadradri Kothagudem',90,TSPWD,TS_MIN,'Improvement 2019–2022',2022,'Overlay',null,'~₹320 Cr',2019,2022,null,'Forest corridor; tribal area'),
+  mksh('SH-5','Mahbubnagar','Wanaparthy','Mahbubnagar, Wanaparthy',75,TSPWD,TS_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-6','Adilabad','Nirmal','Adilabad, Nirmal',80,TSPWD,TS_MIN,'Improvement 2018',2022,'Overlay',null,null,null,null,null,'Godavari basin'),
+  mksh('SH-7','Hyderabad ORR (Outer Ring Road)','Outer Ring Road','Ranga Reddy, Sangareddy, Medchal',158,TSPWD,TS_MIN,'Construction 2008–2015',2015,'Overlay','Hyderabad Metropolitan Dev Authority','~₹6,696 Cr',2008,2015,'High Confidence','8-lane expressway; HMDA project'),
+  mksh('SH-8','Warangal','Khammam','Warangal, Bhupalapally, Khammam',105,TSPWD,TS_MIN,'Widening 2019–2022',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-9','Suryapet','Nalgonda','Suryapet, Nalgonda',50,TSPWD,TS_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-10','Siddipet','Medak','Siddipet, Sangareddy, Medak',75,TSPWD,TS_MIN,'Strengthening 2019',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-11','Jagtial','Mancherial','Jagtial, Mancherial',55,TSPWD,TS_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,'Coal belt'),
+  mksh('SH-12','Nalgonda','Miryalaguda','Nalgonda',35,TSPWD,TS_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-13','Kothagudem','Palvancha','Bhadradri Kothagudem',30,TSPWD,TS_MIN,'Widening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-15','Sangareddy','Zaheerabad','Sangareddy',40,TSPWD,TS_MIN,'Improvement 2020',2022,'Overlay',null,null,null,null,null,''),
+];
+
+// ─── TRIPURA ──────────────────────────────────────────────────────────────────
+const TRPWD='Tripura Public Works Department (Roads)';
+const TR_MIN='Sushanta Chowdhury, PWD Minister, Tripura (BJP)';
+const trStateHighways=[
+  mksh('SH-1','Agartala','Udaipur','West Tripura, Gomati',80,TRPWD,TR_MIN,'4-laning 2016–2021',2022,'Overlay',null,'~₹380 Cr',2016,2021,'Partial','State capital to historic Ujjayanta city'),
+  mksh('SH-2','Agartala','Kailasahar','West, Khowai, Unakoti',145,TRPWD,TR_MIN,'Widening 2017–2022',2022,'Overlay',null,'~₹525 Cr',2017,2022,null,'North Tripura access corridor'),
+  mksh('SH-3','Udaipur','Sabroom','Gomati, South Tripura',95,TRPWD,TR_MIN,'Improvement 2019–2022',2022,'Overlay',null,'~₹290 Cr',2019,2022,null,'Feni river bridge; Bangladesh border area'),
+  mksh('SH-4','Dharmanagar','Kanchanpur','North Tripura, Unakoti',45,TRPWD,TR_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-5','Agartala','Mohanpur','West Tripura',30,TRPWD,TR_MIN,'Widening 2018–2020',2022,'Overlay',null,'~₹88 Cr',2018,2020,null,''),
+  mksh('SH-6','Ambassa','Kamalpur','Khowai',35,TRPWD,TR_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-7','Agartala','Bishalgarh','West Tripura, Sipahijala',35,TRPWD,TR_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-8','Belonia','Santirbazar','South Tripura',40,TRPWD,TR_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-9','Khowai','Teliamura','Khowai',30,TRPWD,TR_MIN,'Strengthening 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-10','Dharmanagar','Panisagar','North Tripura',25,TRPWD,TR_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+];
+
+// ─── UTTAR PRADESH ────────────────────────────────────────────────────────────
+const UPPWD='Uttar Pradesh Public Works Department (PWD)';
+const UP_MIN='Jitin Prasada, PWD Minister, Uttar Pradesh (BJP)';
+const upStateHighways=[
+  mksh('SH-1','Lucknow','Varanasi','Lucknow, Sultanpur, Varanasi',300,UPPWD,UP_MIN,'4-laning 2015–2021',2022,'Overlay','KNR Constructions','~₹4,200 Cr',2015,2021,'Partial','Purvanchal corridor feeder'),
+  mksh('SH-2','Agra','Mathura','Agra, Mathura',55,UPPWD,UP_MIN,'4-laning 2016–2019',2022,'Overlay',null,'~₹320 Cr',2016,2019,null,'Heritage/pilgrimage — Taj Mahal, Krishna janmabhoomi'),
+  mksh('SH-3','Meerut','Hapur','Meerut, Hapur',35,UPPWD,UP_MIN,'Widening 2019–2021',2021,'Overlay',null,'~₹145 Cr',2019,2021,null,''),
+  mksh('SH-4','Lucknow','Hardoi','Lucknow, Hardoi',95,UPPWD,UP_MIN,'Strengthening 2019',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-5','Bareilly','Pilibhit','Bareilly, Pilibhit',68,UPPWD,UP_MIN,'Improvement 2019',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-6','Allahabad (Prayagraj)','Mirzapur','Prayagraj, Mirzapur',73,UPPWD,UP_MIN,'Widening 2017–2021',2022,'Overlay',null,'~₹385 Cr',2017,2021,null,'Kumbh Mela access route'),
+  mksh('SH-7','Gorakhpur','Deoria','Gorakhpur, Deoria',60,UPPWD,UP_MIN,'Strengthening 2018–2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-8','Kanpur','Hamirpur','Kanpur Dehat, Hamirpur',95,UPPWD,UP_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Bundelkhand access'),
+  mksh('SH-9','Moradabad','Rampur','Moradabad, Rampur',55,UPPWD,UP_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-10','Saharanpur','Muzaffarnagar','Saharanpur, Muzaffarnagar',55,UPPWD,UP_MIN,'4-laning 2018–2021',2022,'Overlay',null,'~₹285 Cr',2018,2021,null,'Sugarcane belt'),
+  mksh('SH-11','Jhansi','Lalitpur','Jhansi, Lalitpur',60,UPPWD,UP_MIN,'Strengthening 2019',2021,'Overlay',null,null,null,null,null,'Bundelkhand'),
+  mksh('SH-12','Varanasi','Ghazipur','Varanasi, Ghazipur',70,UPPWD,UP_MIN,'Improvement 2020',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-13','Lucknow','Sitapur','Lucknow, Sitapur',65,UPPWD,UP_MIN,'Widening 2019–2022',2022,'Overlay',null,'~₹245 Cr',2019,2022,null,''),
+  mksh('SH-14','Agra','Firozabad','Agra, Firozabad',40,UPPWD,UP_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Glass city corridor'),
+  mksh('SH-15','Mathura','Aligarh','Mathura, Aligarh, Hathras',72,UPPWD,UP_MIN,'Widening 2017–2020',2021,'Overlay',null,'~₹315 Cr',2017,2020,null,''),
+  mksh('SH-16','Kanpur','Fatehpur','Kanpur Nagar, Fatehpur',75,UPPWD,UP_MIN,'Strengthening 2020',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-17','Meerut','Ghaziabad','Meerut, Ghaziabad',30,UPPWD,UP_MIN,'4-laning 2018–2021',2022,'Overlay',null,'~₹125 Cr',2018,2021,null,'NCR feeder'),
+  mksh('SH-18','Lucknow','Unnao','Lucknow, Unnao',40,UPPWD,UP_MIN,'Widening 2019–2022',2022,'Overlay',null,null,null,null,null,''),
+  mksh('SH-19','Bareilly','Shahjahanpur','Bareilly, Shahjahanpur',72,UPPWD,UP_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-20','Varanasi','Jaunpur','Varanasi, Jaunpur',55,UPPWD,UP_MIN,'Strengthening 2020',2021,'Overlay',null,null,null,null,null,''),
+];
+
+// ─── UTTARAKHAND ──────────────────────────────────────────────────────────────
+const UKPWD='Uttarakhand Public Works Department';
+const UK_MIN='Satpal Maharaj, PWD Minister, Uttarakhand (BJP)';
+const ukStateHighways=[
+  mksh('SH-1','Dehradun','Rishikesh','Dehradun, Haridwar',48,UKPWD,UK_MIN,'4-laning 2016–2021',2022,'Overlay',null,'~₹580 Cr',2016,2021,'Partial','Char Dham pilgrimage gateway; Ganga corridor'),
+  mksh('SH-2','Haridwar','Roorkee','Haridwar',30,UKPWD,UK_MIN,'Widening 2018–2020',2022,'Overlay',null,'~₹185 Cr',2018,2020,null,'IIT Roorkee access'),
+  mksh('SH-3','Dehradun','Mussoorie','Dehradun',20,UKPWD,UK_MIN,'Improvement 2018–2021',2022,'Overlay',null,'~₹145 Cr',2018,2021,null,'Queen of Hills tourist road'),
+  mksh('SH-4','Nainital','Haldwani','Nainital, Nainital',35,UKPWD,UK_MIN,'Widening 2017–2020',2021,'Overlay',null,'~₹195 Cr',2017,2020,null,'Hill resort access'),
+  mksh('SH-5','Rishikesh','Devprayag','Tehri Garhwal',72,UKPWD,UK_MIN,'Char Dham road 2018–2023',2023,'Overlay','HCC, DBL','~₹1,800 Cr',2018,2023,'Partial','Char Dham Mahamarg project'),
+  mksh('SH-6','Devprayag','Srinagar (Garhwal)','Pauri Garhwal',40,UKPWD,UK_MIN,'Char Dham road 2018–2023',2023,'Overlay',null,'~₹650 Cr',2018,2023,null,''),
+  mksh('SH-7','Srinagar (Garhwal)','Rudraprayag','Rudraprayag',30,UKPWD,UK_MIN,'Char Dham road 2018–2023',2023,'Overlay',null,null,null,null,null,''),
+  mksh('SH-8','Rudraprayag','Badrinath','Chamoli',100,UKPWD,UK_MIN,'Char Dham road 2018–2023',2023,'Overlay',null,'~₹2,100 Cr',2018,2023,'Partial','Badrinath Dham route — Char Dham'),
+  mksh('SH-9','Rudraprayag','Kedarnath (base)','Rudraprayag',85,UKPWD,UK_MIN,'Char Dham road 2018–2023',2023,'Overlay',null,'~₹1,350 Cr',2018,2023,'Partial','Kedarnath Dham route — Char Dham'),
+  mksh('SH-10','Haridwar','Yamunotri (base)','Haridwar, Uttarkashi',250,UKPWD,UK_MIN,'Char Dham road 2018–2023',2023,'Overlay',null,null,null,null,null,''),
+  mksh('SH-11','Dehradun','Chakrata','Dehradun',90,UKPWD,UK_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Jaunsar tribal area'),
+  mksh('SH-12','Almora','Ranikhet','Almora',55,UKPWD,UK_MIN,'Resurfacing 2021',2022,'Overlay',null,null,null,null,null,'Kumaon hill station'),
+  mksh('SH-13','Pithoragarh','Dharchula','Pithoragarh',95,UKPWD,UK_MIN,'Improvement 2019–2022',2022,'Overlay',null,null,null,null,null,'China/Nepal border area'),
+];
+
+// ─── WEST BENGAL ──────────────────────────────────────────────────────────────
+const WBPWD='West Bengal Public Works Department';
+const WB_MIN='Pulak Roy, PWD Minister, West Bengal (AITC/TMC)';
+const wbStateHighways=[
+  mksh('SH-1','Kolkata','Barasat','North 24 Parganas',30,WBPWD,WB_MIN,'4-laning 2016–2020',2022,'Overlay',null,'~₹385 Cr',2016,2020,'Partial',''),
+  mksh('SH-2','Kolkata','Baruipur','South 24 Parganas',35,WBPWD,WB_MIN,'Widening 2017–2021',2022,'Overlay',null,'~₹230 Cr',2017,2021,null,'Sundarbans gateway'),
+  mksh('SH-3','Siliguri','Jalpaiguri','Darjeeling, Jalpaiguri',50,WBPWD,WB_MIN,'4-laning 2016–2021',2022,'Overlay',null,'~₹480 Cr',2016,2021,null,'North Bengal main artery'),
+  mksh('SH-4','Durgapur','Asansol','Paschim Bardhaman',40,WBPWD,WB_MIN,'Widening 2018–2021',2022,'Overlay',null,'~₹295 Cr',2018,2021,null,'Industrial belt'),
+  mksh('SH-5','Kolkata','Burdwan (Bardhaman)','Hooghly, Purba Bardhaman',95,WBPWD,WB_MIN,'4-laning 2015–2021',2022,'Overlay','L&T, Oriental','~₹1,250 Cr',2015,2021,'Partial',''),
+  mksh('SH-6','Siliguri','Darjeeling','Darjeeling',77,WBPWD,WB_MIN,'Hill road improvement 2018–2022',2022,'Overlay',null,'~₹385 Cr',2018,2022,null,'Hill station tourist road; landslide-prone'),
+  mksh('SH-7','Barasat','Basirhat','North 24 Parganas',75,WBPWD,WB_MIN,'Widening 2019–2022',2022,'Overlay',null,null,null,null,null,'Bangladesh border area'),
+  mksh('SH-8','Krishnanagar','Murshidabad','Nadia, Murshidabad',85,WBPWD,WB_MIN,'Improvement 2019–2022',2022,'Overlay',null,'~₹340 Cr',2019,2022,null,'Heritage Murshidabad'),
+  mksh('SH-9','Bankura','Purulia','Bankura, Purulia',80,WBPWD,WB_MIN,'Strengthening 2018–2021',2021,'Overlay',null,null,null,null,null,'Tribal area'),
+  mksh('SH-10','Midnapore (Medinipur)','Jhargram','Paschim Medinipur',65,WBPWD,WB_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-11','Haldia','Tamluk','Purba Medinipur',50,WBPWD,WB_MIN,'Widening 2018–2021',2022,'Overlay',null,'~₹295 Cr',2018,2021,null,'Port city corridor'),
+  mksh('SH-12','Siliguri','Cooch Behar','Jalpaiguri, Alipurduar, Cooch Behar',125,WBPWD,WB_MIN,'Strengthening 2018–2022',2022,'Overlay',null,null,null,null,null,'North Bengal sub-mountain'),
+  mksh('SH-13','Burdwan','Suri','Purba Bardhaman, Birbhum',70,WBPWD,WB_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Birbhum coal belt'),
+  mksh('SH-14','Durgapur','Suri','Paschim Bardhaman, Birbhum',55,WBPWD,WB_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-15','Malda','English Bazar','Malda',10,WBPWD,WB_MIN,'Widening 2019–2021',2021,'Overlay',null,null,null,null,null,'Mango city'),
+  mksh('SH-16','Baharampur','Jangipur','Murshidabad',45,WBPWD,WB_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-17','Cooch Behar','Dinhata','Cooch Behar',35,WBPWD,WB_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('SH-18','Jalpaiguri','Malbazar','Jalpaiguri',40,WBPWD,WB_MIN,'Improvement 2019',2021,'Overlay',null,null,null,null,null,'Tea garden area'),
+];
+
+// ─── DELHI ────────────────────────────────────────────────────────────────────
+const DLPWD='Public Works Department, GNCT of Delhi';
+const DL_MIN='Parvesh Verma, CM/PWD Delhi (BJP, 2025)';
+const dlStateHighways=[
+  mksh('MDR-01 (SH equivalent)','ISBT Kashmere Gate','NH-44 Singhu Border','North Delhi',22,DLPWD,DL_MIN,'Resurfacing 2022',2022,'Overlay',null,null,null,null,null,'Delhi—major urban arterial; no numbered SHs'),
+  mksh('MDR-02','Connaught Place','Mehrauli','South Delhi',25,DLPWD,DL_MIN,'Overlay 2021',2021,'Overlay',null,null,null,null,null,''),
+  mksh('Ring Road','AIIMS Flyover','Sarai Kale Khan','South, East Delhi',55,DLPWD,DL_MIN,'Periodic maintenance 2022',2022,'Overlay','Multiple agencies',null,null,null,'Partial','Delhi Ring Road; shared with NDMC/MCD'),
+  mksh('Outer Ring Road','Wazirpur','Sarita Vihar','North, East, South Delhi',48,DLPWD,DL_MIN,'Resurfacing 2022',2022,'Overlay',null,null,null,null,null,''),
+  mksh('NH-48 Link (SH equiv)','Aerocity','Dhaula Kuan','South-West Delhi',12,DLPWD,DL_MIN,'4-laning 2018–2020',2022,'Overlay',null,'~₹185 Cr',2018,2020,'Partial','Airport Express corridor feeder'),
+];
+
+// ─── JAMMU & KASHMIR ──────────────────────────────────────────────────────────
+const JKPWD='Jammu & Kashmir Public Works Department (R&B)';
+const JK_MIN='Sakeena Itoo, PWD Minister, J&K UT (Government of J&K)';
+const jkStateHighways=[
+  mksh('SH-1A','Jammu','Akhnoor','Jammu',45,JKPWD,JK_MIN,'Widening 2019–2022',2022,'Overlay',null,'~₹325 Cr',2019,2022,'Partial','Chenab valley approach'),
+  mksh('SH-1B','Jammu','Nagrota','Jammu',20,JKPWD,JK_MIN,'4-laning 2018–2021',2022,'Overlay',null,'~₹145 Cr',2018,2021,null,'Jammu city bypass feeder'),
+  mksh('SH-2','Jammu','Kathua','Jammu, Kathua',80,JKPWD,JK_MIN,'Improvement 2018–2022',2022,'Overlay',null,'~₹480 Cr',2018,2022,null,'Tawi river area; Punjab border'),
+  mksh('SH-3','Jammu','Rajouri','Jammu, Rajouri',155,JKPWD,JK_MIN,'Widening 2017–2022',2022,'Overlay',null,'~₹1,100 Cr',2017,2022,'Partial','Pir Panjal range; strategic road'),
+  mksh('SH-4','Srinagar','Pahalgam','Srinagar, Anantnag',95,JKPWD,JK_MIN,'Tourism road 2018–2022',2022,'Overlay',null,'~₹425 Cr',2018,2022,null,'Amarnath Yatra route'),
+  mksh('SH-5','Srinagar','Gulmarg','Baramulla',55,JKPWD,JK_MIN,'Tourism road 2019–2022',2022,'Overlay',null,'~₹285 Cr',2019,2022,null,'Ski resort; winter sports'),
+  mksh('SH-6','Srinagar','Sonamarg','Ganderbal',85,JKPWD,JK_MIN,'Strategic improvement 2019–2022',2022,'Overlay',null,'~₹390 Cr',2019,2022,null,'Zojila Pass approach; Z-Morh tunnel'),
+  mksh('SH-7','Baramulla','Kupwara','Baramulla, Kupwara',45,JKPWD,JK_MIN,'Strengthening 2019',2022,'Overlay',null,null,null,null,null,'LOC area; strategic'),
+  mksh('SH-8','Anantnag','Kishtwar','Anantnag, Kulgam, Kishtwar',170,JKPWD,JK_MIN,'Improvement 2018–2022',2022,'Overlay',null,'~₹1,250 Cr',2018,2022,'Partial','Remote mountain terrain'),
+  mksh('SH-9','Leh','Kargil','Leh, Kargil',215,JKPWD,JK_MIN,'Strategic maintenance 2022',2022,'Overlay','BRO','~₹380 Cr (BRO)',null,null,'Partial','Ladakh UT (Zanskar route); BRO maintained'),
+  mksh('SH-10','Srinagar','Shopian','Srinagar, Shopian',60,JKPWD,JK_MIN,'Widening 2019',2022,'Overlay',null,null,null,null,null,'Apple orchard belt'),
+  mksh('SH-11','Udhampur','Doda','Udhampur, Doda',90,JKPWD,JK_MIN,'Improvement 2018–2022',2022,'Overlay',null,'~₹520 Cr',2018,2022,null,''),
+  mksh('SH-12','Rajouri','Poonch','Rajouri, Poonch',85,JKPWD,JK_MIN,'Strengthening 2019–2022',2022,'Overlay',null,'~₹385 Cr',2019,2022,null,'LOC area; strategic'),
+];
+
+// ─── PUDUCHERRY ───────────────────────────────────────────────────────────────
+const PYPWD='Public Works Department, Government of Puducherry';
+const PY_MIN='K. Lakshminarayanan, Chief Minister/PWD, Puducherry (AINRC-BJP)';
+const pyStateHighways=[
+  mksh('SH-49','Puducherry','Villupuram','Puducherry UT, Villupuram (TN)',40,PYPWD,PY_MIN,'Widening 2018–2021',2022,'Overlay',null,'~₹95 Cr',2018,2021,'Partial','Connects UT capital to Tamil Nadu NH-66'),
+  mksh('SH-50','Puducherry','Cuddalore','Puducherry UT, Cuddalore (TN)',55,PYPWD,PY_MIN,'Improvement 2019–2022',2022,'Overlay',null,'~₹115 Cr',2019,2022,null,'Coastal road; heritage French Quarter access'),
+  mksh('SH-51','Karaikal','Nagapattinam border','Karaikal (UT), Nagapattinam (TN)',20,PYPWD,PY_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Karaikal enclave corridor'),
+  mksh('SH-52','Mahe','Kozhikode border','Mahe (UT), Kozhikode (KL)',10,PYPWD,PY_MIN,'Improvement 2020',2021,'Overlay',null,null,null,null,null,'Mahe enclave; Kerala border'),
+  mksh('SH-53','Yanam','East Godavari border','Yanam (UT), East Godavari (AP)',15,PYPWD,PY_MIN,'Resurfacing 2021',2021,'Overlay',null,null,null,null,null,'Yanam enclave; Andhra border'),
+];
+
 // ─── GENERATE EXCEL ──────────────────────────────────────────────────────────
 const wb = XLSX.utils.book_new();
 wb.Props = {
@@ -1801,6 +2443,35 @@ function addSheet(name, headers, rows) {
 addSheet('National Highways (India)', nhHeaders, nationalHighways.map(nhToRow));
 addSheet('TN State Highways', tnHeaders, tnStateHighways.map(tnToRow));
 addSheet('MH State Highways', tnHeaders, mhStateHighways.map(tnToRow));
+addSheet('AP State Highways', tnHeaders, apStateHighways.map(tnToRow));
+addSheet('AR State Highways', tnHeaders, arStateHighways.map(tnToRow));
+addSheet('AS State Highways', tnHeaders, asStateHighways.map(tnToRow));
+addSheet('Bihar State Highways', tnHeaders, biStateHighways.map(tnToRow));
+addSheet('CG State Highways', tnHeaders, cgStateHighways.map(tnToRow));
+addSheet('Goa State Highways', tnHeaders, goaStateHighways.map(tnToRow));
+addSheet('Gujarat State Highways', tnHeaders, gjStateHighways.map(tnToRow));
+addSheet('Haryana State Highways', tnHeaders, hrStateHighways.map(tnToRow));
+addSheet('HP State Highways', tnHeaders, hpStateHighways.map(tnToRow));
+addSheet('Jharkhand State Highways', tnHeaders, jhStateHighways.map(tnToRow));
+addSheet('Karnataka State Highways', tnHeaders, kaStateHighways.map(tnToRow));
+addSheet('Kerala State Highways', tnHeaders, klStateHighways.map(tnToRow));
+addSheet('MP State Highways', tnHeaders, mpStateHighways.map(tnToRow));
+addSheet('Manipur State Highways', tnHeaders, mnStateHighways.map(tnToRow));
+addSheet('Meghalaya State Highways', tnHeaders, mlStateHighways.map(tnToRow));
+addSheet('Mizoram State Highways', tnHeaders, mzStateHighways.map(tnToRow));
+addSheet('Nagaland State Highways', tnHeaders, ngStateHighways.map(tnToRow));
+addSheet('Odisha State Highways', tnHeaders, odStateHighways.map(tnToRow));
+addSheet('Punjab State Highways', tnHeaders, pbStateHighways.map(tnToRow));
+addSheet('Rajasthan State Highways', tnHeaders, rjStateHighways.map(tnToRow));
+addSheet('Sikkim State Highways', tnHeaders, skStateHighways.map(tnToRow));
+addSheet('Telangana State Highways', tnHeaders, tsStateHighways.map(tnToRow));
+addSheet('Tripura State Highways', tnHeaders, trStateHighways.map(tnToRow));
+addSheet('UP State Highways', tnHeaders, upStateHighways.map(tnToRow));
+addSheet('Uttarakhand State Highways', tnHeaders, ukStateHighways.map(tnToRow));
+addSheet('WB State Highways', tnHeaders, wbStateHighways.map(tnToRow));
+addSheet('Delhi Roads', tnHeaders, dlStateHighways.map(tnToRow));
+addSheet('JK State Highways', tnHeaders, jkStateHighways.map(tnToRow));
+addSheet('Puducherry SHs', tnHeaders, pyStateHighways.map(tnToRow));
 
 // Data sources sheet
 const dsHeaders = ['Source Name','URL','Type','What It Covers'];
@@ -1820,6 +2491,35 @@ const summaryData = [
   ['Total NH rows', nationalHighways.length],
   ['Total TN SH rows', tnStateHighways.length],
   ['Total MH SH rows', mhStateHighways.length],
+  ['Total AP SH rows', apStateHighways.length],
+  ['Total AR SH rows', arStateHighways.length],
+  ['Total AS SH rows', asStateHighways.length],
+  ['Total Bihar SH rows', biStateHighways.length],
+  ['Total CG SH rows', cgStateHighways.length],
+  ['Total Goa SH rows', goaStateHighways.length],
+  ['Total GJ SH rows', gjStateHighways.length],
+  ['Total HR SH rows', hrStateHighways.length],
+  ['Total HP SH rows', hpStateHighways.length],
+  ['Total Jharkhand SH rows', jhStateHighways.length],
+  ['Total KA SH rows', kaStateHighways.length],
+  ['Total KL SH rows', klStateHighways.length],
+  ['Total MP SH rows', mpStateHighways.length],
+  ['Total Manipur SH rows', mnStateHighways.length],
+  ['Total Meghalaya SH rows', mlStateHighways.length],
+  ['Total Mizoram SH rows', mzStateHighways.length],
+  ['Total Nagaland SH rows', ngStateHighways.length],
+  ['Total Odisha SH rows', odStateHighways.length],
+  ['Total Punjab SH rows', pbStateHighways.length],
+  ['Total Rajasthan SH rows', rjStateHighways.length],
+  ['Total Sikkim SH rows', skStateHighways.length],
+  ['Total Telangana SH rows', tsStateHighways.length],
+  ['Total Tripura SH rows', trStateHighways.length],
+  ['Total UP SH rows', upStateHighways.length],
+  ['Total Uttarakhand SH rows', ukStateHighways.length],
+  ['Total WB SH rows', wbStateHighways.length],
+  ['Total Delhi roads', dlStateHighways.length],
+  ['Total JK SH rows', jkStateHighways.length],
+  ['Total Puducherry SH rows', pyStateHighways.length],
   [''],
   ['DATA QUALITY LEGEND'],
   ['High Confidence',   'Data verified against NHAI/MoRTH/CAG official publications'],
